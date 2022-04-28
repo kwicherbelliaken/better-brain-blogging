@@ -13,8 +13,8 @@ import {
   ScrollRestoration,
 } from "@remix-run/react";
 
-import tailwindStylesheetUrl from "./styles/tailwind.css";
 import { getUser } from "./session.server";
+import tailwindStylesheetUrl from "./styles/tailwind.css";
 
 export const links: LinksFunction = () => {
   return [
@@ -40,6 +40,18 @@ export const loader: LoaderFunction = async ({ request }) => {
   });
 };
 
+function Header() {
+  return (
+    <div className="relative mb-16 flex h-16 w-full flex-row justify-between bg-[color:rgba(0,0,0,1)] text-white">
+      <div>djuhurd!</div>
+      <div className="flex flex-row justify-between">
+        <div className="pr-8">slackermorris</div>
+        <div>icon</div>
+      </div>
+    </div>
+  );
+}
+
 export default function App() {
   return (
     <html lang="en" className="h-full">
@@ -48,6 +60,7 @@ export default function App() {
         <Links />
       </head>
       <body className="h-full">
+        <Header />
         <Outlet />
         <ScrollRestoration />
         <Scripts />
