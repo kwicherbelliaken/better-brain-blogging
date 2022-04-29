@@ -1,5 +1,3 @@
-import moduleNameMapper from "jest-module-name-mapper";
-
 export default {
   preset: "ts-jest/presets/default-esm",
   testEnvironment: "@happy-dom/jest-environment",
@@ -32,7 +30,9 @@ export default {
   // extended assertions to Jest
   setupFilesAfterEnv: ["<rootDir>/test/setup-test-env.ts"],
   moduleDirectories: ["node_modules", "src"],
-  moduleNameMapper: moduleNameMapper(),
+  moduleNameMapper: {
+    "~/(.*)": "<rootDir>/app/$1",
+  },
   /* <!--  📥 Test Spec File Resolution Pattern (parent folder `__tests__`; filename to contain `test` or `spec`) --> */
   testRegex: "(/__tests__/.*|(\\.|/)(test|spec))\\.tsx?$",
 
