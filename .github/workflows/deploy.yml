@@ -54,7 +54,7 @@ jobs:
         run: npm run typecheck --if-present
 
   vitest:
-    name: ⚡ Vitest
+    name: ⚡ Jest Testing
     runs-on: ubuntu-latest
     steps:
       - name: 🛑 Cancel Previous Runs
@@ -71,7 +71,7 @@ jobs:
       - name: 📥 Download deps
         uses: bahmutov/npm-install@v1
 
-      - name: ⚡ Run vitest
+      - name: ⚡ Run Jest Testing
         run: npm run test -- --coverage
 
   cypress:
