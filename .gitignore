@@ -9,6 +9,8 @@ sam.json
 sam.yaml
 .env
 
+coverage/
+
 /cypress/screenshots
 /cypress/videos
 
