@@ -3,7 +3,8 @@
   "include": ["remix.env.d.ts", "**/*.ts", "**/*.tsx"],
   "compilerOptions": {
     "lib": ["DOM", "DOM.Iterable", "ES2019"],
-    "types": ["vitest/globals"],
+      /* <!--  📥 Instruct compiler that Node and Jest are globally available --> */
+    "types": ["node", "jest"],
     "isolatedModules": true,
     "esModuleInterop": true,
     "jsx": "react-jsx",
