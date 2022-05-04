@@ -9,6 +9,8 @@ sam.json
 sam.yaml
 .env
 
+server/index.js.map
+
 coverage/
 
 /cypress/screenshots
