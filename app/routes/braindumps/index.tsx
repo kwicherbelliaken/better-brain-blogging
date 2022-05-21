@@ -95,7 +95,7 @@ export default function BraindumpsIndex() {
                       >
                         <p className="text-slate-400">{braindump.created_at}</p>
                         <div className="max-w-[65%] overflow-hidden text-ellipsis whitespace-nowrap text-justify">
-                          {braindump["Name"]["title"][0]["plain_text"]}
+                          {braindump["Name"]}
                         </div>
                       </div>
                     );

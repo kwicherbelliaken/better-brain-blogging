@@ -19,6 +19,7 @@ type BraindumpDatabaseColumnsForDisplayType = Exclude<
 
 export type NotionDatabaseRow = QueryDatabaseResponse["results"][0];
 
+// @ts-ignore: unsure why Notion API type isn't properly detected
 export type NotionDatabaseColumn = NotionDatabaseRow["properties"][string];
 
 export type NotionDatabaseAPIMapperResponse = Array<Braindump>;
@@ -75,22 +76,25 @@ export const retrieveBraindumpsFromNotionDatabase = (
 /**
  * It retrieves the possible categories applicable to the provided Braindump
  */
-const _getBraindumpCategory = (columns: NotionDatabaseRow["properties"]) => {
-  const braindumpCategories = columns["Tags"]["multi_select"];
+const _getBraindumpCategory =
+  // @ts-ignore: unsure why Notion API type isn't properly detected
+  (columns: NotionDatabaseRow["properties"]) => {
+    const braindumpCategories = columns["Tags"]["multi_select"];
 
-  if (braindumpCategories.length) {
-    return braindumpCategories.map(
-      (
-        category: Extract<
-          NotionDatabaseRow["properties"][string],
-          { type: "multi_select" }
-        >["multi_select"]
-      ) => category.name
-    );
-  }
+    if (braindumpCategories.length) {
+      return braindumpCategories.map(
+        (
+          category: Extract<
+            // @ts-ignore: unsure why Notion API type isn't properly detected
+            NotionDatabaseRow["properties"][string],
+            { type: "multi_select" }
+          >["multi_select"]
+        ) => category.name
+      );
+    }
 
-  return null;
-};
+    return null;
+  };
 
 /**
  * It retrieves the discrete value for a column. The NotionDatabase API is convoluted and the value is deeply nested and therefore needs to be extracted for eas(ier) access.
