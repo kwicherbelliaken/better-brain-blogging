@@ -1,4 +1,4 @@
-import type { ThrownResponse } from "@remix-run/react";
+import { Link, ThrownResponse } from "@remix-run/react";
 import { useCatch, useLoaderData } from "@remix-run/react";
 import type {
   HeadersFunction,
@@ -95,7 +95,9 @@ export default function BraindumpsIndex() {
                       >
                         <p className="text-slate-400">{braindump.created_at}</p>
                         <div className="max-w-[65%] overflow-hidden text-ellipsis whitespace-nowrap text-justify">
-                          {braindump["Name"]}
+                          <Link to={braindump["Markdown"] ?? "REMOVE_ME"}>
+                            {braindump["Name"]}
+                          </Link>
                         </div>
                       </div>
                     );
