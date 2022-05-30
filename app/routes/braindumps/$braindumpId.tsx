@@ -80,19 +80,66 @@ export const loader = async ({
     );
   }
 
-  return json(blocks);
+  return json({ braindumpMeta: response, braindumpContent: blocks });
 };
 
 export default function BraindumpIndex() {
-  const { results: blocks } = useLoaderData();
+  // [TODO]:
+  // [ ]: I need to extract information about the page to display
+  // [ ]: add highlighter effect to some sections
+  // [ ]: determine the colours that I want to use
+  // [ ]: how could I use this peeling sticky? https://codepen.io/patrickkunka/details/DeZQXw
+  // [ ]: design a layout component (or does Tailwind offer one)?
 
-  console.log("LOGGING THE BLOCKS: ", { blocks });
+  // [TYPEFACE]:
+  // https://fontsinuse.com/uses/47122/paul-and-the-microcosm-wenzel-rehbach
+  // https://fontsinuse.com/uses/46970/frow
 
-  const content = useNotionInterpretBlocks(blocks);
+  const { braindumpMeta, braindumpContent } = useLoaderData();
 
-  // is it a good idea to return markdown from the loader?
+  console.log("LOGGING THE META: ", { braindumpMeta });
 
-  if (!blocks) return null;
+  const content = useNotionInterpretBlocks(braindumpContent.results);
 
-  return <div>{content}</div>;
+  if (!braindumpContent || !braindumpMeta) return null;
+
+  const pseudoElementStyles =
+    "before:absolute before:z-[-1] before:h-full before:w-full before:bg-red before: block before:rounded-tl-lg";
+
+  const Header = (
+    <div className="mb-12 flex flex-col">
+      <Title.H1>
+        {braindumpMeta["properties"]["title"]["title"][0]["plain_text"]}
+      </Title.H1>
+      <div className="space-between flex w-full flex-row justify-around pt-6">
+        <div className="w-fit rounded-full py-2 px-2 outline outline-midnight-dark">
+          {braindumpMeta["created_time"]}
+        </div>
+        <div className="w-fit rounded-full py-2 px-2 outline outline-midnight-dark">
+          Uncategorised
+        </div>
+      </div>
+    </div>
+  );
+
+  const References = (
+    <div className="flex w-1/4 flex-col bg-midnight-light">
+      <div className="p-8 font-sim text-xl uppercase text-graphite-lightest">
+        <p>reference title</p>
+        <p>reference url</p>
+      </div>
+    </div>
+  );
+
+  return (
+    <div className="h-full w-full bg-pink">
+      <div className={`absolute m-4 bg-white p-4`}>
+        {Header}
+        <div className="flex flex-row justify-center">
+          {References}
+          <div className="flex w-3/4 flex-col px-4">{content}</div>
+        </div>
+      </div>
+    </div>
+  );
 }
