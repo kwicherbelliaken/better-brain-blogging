@@ -16,7 +16,12 @@ const Paragraph = <BlockType extends object>({
         const isUnderlined = text.annotations.underline;
         const isItalic = text.annotations.italic;
 
-        const richProps = { isBold, isUnderlined, isItalic };
+        const richProps = {
+          isBold,
+          isUnderlined,
+          isItalic,
+          className: "font-nhmb text-xl text-midnight-light",
+        };
 
         if (text.href) {
           return (
@@ -25,6 +30,7 @@ const Paragraph = <BlockType extends object>({
             </A>
           );
         }
+
         return (
           <RichText key={text.text.content} {...richProps}>
             {text.text.content}

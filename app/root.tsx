@@ -42,7 +42,7 @@ export const loader: LoaderFunction = async ({ request }) => {
 
 function Header() {
   return (
-    <div className="relative mb-16 flex h-16 w-full flex-row justify-between bg-[color:rgba(0,0,0,1)] text-white">
+    <div className="relative flex h-16 w-full flex-row justify-between bg-[color:rgba(0,0,0,1)] text-white">
       <div>djuhurd!</div>
       <div className="flex flex-row justify-between">
         <div className="pr-8">slackermorris</div>

@@ -13,7 +13,7 @@ const RichText = ({
   // [TODO]:
   // [ ]: appropriately interpret the styles here
   // [ ]: decide on a generic style choice here that will be interpreted in SCSS
-  return <div>{children}</div>;
+  return <div {...styleProps}>{children}</div>;
 };
 
 export default RichText;
