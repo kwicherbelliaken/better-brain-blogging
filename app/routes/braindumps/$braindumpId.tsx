@@ -37,7 +37,9 @@ const useNotionInterpretBlocks = (
           //   return <ListItem block={block} key={block.id} />;
 
           case "image":
-            return <ImageContainer src={block.image.external.url} />;
+            return (
+              <ImageContainer key={block.id} src={block.image.external.url} />
+            );
 
           // case "code":
           //   return (
@@ -94,14 +96,28 @@ export default function BraindumpIndex() {
   // [TYPEFACE]:
   // https://fontsinuse.com/uses/47122/paul-and-the-microcosm-wenzel-rehbach
   // https://fontsinuse.com/uses/46970/frow
+  // https://fontsinuse.com/uses/43980/ekin-fil-aquarius-pisces-single-cover
+  // https://fontsinuse.com/uses/45808/futurissimo-l-utopie-du-design-italien
+
+  // [IRREGULAR CSS SHAPES]:
+  // https://stackoverflow.com/questions/23711059/trapezium-shape-with-rounded-corners-and-pure-css
+  // http://jsfiddle.net/webtiki/umV38/
+  // https://www.w3.org/TR/2010/WD-css3-background-20100612/Overview.src.html
+  //
+
+  // [ADVANCED CSS]:
+  // https://developpaper.com/css-advanced-use-css-gradient-to-make-gorgeous-gradient-texture-background-effect/
+  // peelable sticker (with animation): https://codepen.io/patrickkunka/details/DeZQXw
+  // http://www.coding-dude.com/wp/css/highlight-text-css/
+  // https://alvarotrigo.com/blog/css-highlight-text/
 
   const { braindumpMeta, braindumpContent } = useLoaderData();
-
-  console.log("LOGGING THE META: ", { braindumpMeta });
 
   const content = useNotionInterpretBlocks(braindumpContent.results);
 
   if (!braindumpContent || !braindumpMeta) return null;
+
+  console.log("LOGGING THE CONTENT: ", { braindumpContent });
 
   const pseudoElementStyles =
     "before:absolute before:z-[-1] before:h-full before:w-full before:bg-red before: block before:rounded-tl-lg";
@@ -124,9 +140,22 @@ export default function BraindumpIndex() {
 
   const References = (
     <div className="flex w-1/4 flex-col bg-midnight-light">
-      <div className="p-8 font-sim text-xl uppercase text-graphite-lightest">
-        <p>reference title</p>
-        <p>reference url</p>
+      <div className="text-m grid-row-gap-0 m-4 grid grid-cols-4 grid-rows-5 overflow-hidden text-clip font-sim uppercase text-graphite-lightest outline outline-graphite-lightest">
+        <div className="col-span-4">
+          <p>article title</p>
+        </div>
+        <div className="col-span-1 col-end-5">
+          <p>author name</p>
+        </div>
+        <div className="col-span-3 row-start-3">
+          <p>article url</p>
+        </div>
+        <div className="col-span-2 row-start-4">
+          <p>publish date</p>
+        </div>
+        <div className="col-span-1 col-start-3 row-start-5">
+          <p>media</p>
+        </div>
       </div>
     </div>
   );

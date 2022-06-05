@@ -1,20 +1,13 @@
 import { PropsWithChildren } from "react";
 
 type RichTextProps = {
-  isBold: boolean;
-  isUnderlined: boolean;
-  isItalic: boolean;
+  className: string;
 };
 
 const RichText = ({
   children,
   ...styleProps
-}: PropsWithChildren<RichTextProps>) => {
-  // [TODO]:
-  // [ ]: appropriately interpret the styles here
-  // [ ]: decide on a generic style choice here that will be interpreted in SCSS
-  return <div {...styleProps}>{children}</div>;
-};
+}: PropsWithChildren<RichTextProps>) => <p {...styleProps}>{children}</p>;
 
 export default RichText;
 

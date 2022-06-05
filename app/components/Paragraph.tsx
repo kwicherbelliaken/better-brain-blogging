@@ -9,31 +9,33 @@ type ParagraphProps<BlockType> = {
 const Paragraph = <BlockType extends object>({
   block,
 }: ParagraphProps<BlockType>) => {
+  console.log("LOGGING INSIDE THE PARAGRAPH BLOCK: ", { block });
+
   return (
     <P>
-      {block.paragraph.rich_text.map((text) => {
+      {block.paragraph.rich_text.map((text, index: number) => {
         const isBold = text.annotations.bold;
         const isUnderlined = text.annotations.underline;
         const isItalic = text.annotations.italic;
 
         const richProps = {
-          isBold,
-          isUnderlined,
-          isItalic,
-          className: "font-nhmb text-xl text-midnight-light",
+          className: `font-nhmb text-xl text-midnight-light inline 
+          ${isBold ? "font-bold" : ""} 
+          ${isItalic ? "italic" : ""} 
+          ${isUnderlined ? "underline" : ""}`,
         };
 
         if (text.href) {
           return (
-            <A key={text.text.content} href={text.href}>
+            <A key={`text.text.content.${index}`} href={text.href}>
               <RichText {...richProps}> {text.text.content}</RichText>
             </A>
           );
         }
 
         return (
-          <RichText key={text.text.content} {...richProps}>
-            {text.text.content}
+          <RichText key={`text.text.content.${index}`} {...richProps}>
+            {text.text.content}{" "}
           </RichText>
         );
       })}
