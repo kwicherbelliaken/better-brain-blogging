@@ -7,7 +7,7 @@ const H2 = ({ children }: PropsWithChildren<{}>) => (
   <h2 className="pb-8 font-nhmb text-8xl">{children}</h2>
 );
 const H3 = ({ children }: PropsWithChildren<{}>) => (
-  <h3 className="pb-8 text-6xl">{children}</h3>
+  <h3 className="font-nhmb text-6xl text-graphite-lightest">{children}</h3>
 );
 
 export default { H1, H2, H3 };
