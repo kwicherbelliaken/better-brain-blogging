@@ -9,8 +9,6 @@ type ParagraphProps<BlockType> = {
 const Paragraph = <BlockType extends object>({
   block,
 }: ParagraphProps<BlockType>) => {
-  console.log("LOGGING INSIDE THE PARAGRAPH BLOCK: ", { block });
-
   return (
     <P>
       {block.paragraph.rich_text.map((text, index: number) => {
