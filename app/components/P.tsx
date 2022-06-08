@@ -1,7 +1,10 @@
 import { PropsWithChildren } from "react";
 
-const P = ({ children }: PropsWithChildren<{}>) => (
-  <div className="mb-5 inline">{children}</div>
+const P = ({
+  children,
+  className,
+}: PropsWithChildren<{ className?: string }>) => (
+  <div className={`mb-5 inline ${className}`}>{children}</div>
 );
 
 export default P;
