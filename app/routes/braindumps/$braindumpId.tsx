@@ -6,6 +6,9 @@ import ImageContainer from "~/components/ImageContainer";
 import Paragraph from "~/components/Paragraph";
 import Title from "~/components/Title";
 import notionClient from "~/integrations/notion";
+import styles from "highlight.js/styles/base16/zenburn.css";
+import CodeBlock from "~/components/CodeBlock";
+import hljs from "highlight.js";
 
 const useNotionInterpretBlocks = (
   blocks: GetBlockResponse[]
@@ -41,14 +44,16 @@ const useNotionInterpretBlocks = (
               <ImageContainer key={block.id} src={block.image.external.url} />
             );
 
-          // case "code":
-          //   return (
-          //     <CodeBlock
-          //       key={block.id}
-          //       text={block.code.text[0].plain_text}
-          //       language={block.code.language}
-          //     />
-          //   );
+          case "code":
+            return (
+              <CodeBlock
+                key={block.id}
+                content={{
+                  caption: block.code.caption[0].plain_text,
+                  code: block.code.rich_text[0].plain_text,
+                }}
+              />
+            );
 
           default:
             return null;
@@ -96,6 +101,15 @@ export const loader = async ({
   });
 };
 
+export const links = () => {
+  return [
+    {
+      rel: "stylesheet",
+      href: styles,
+    },
+  ];
+};
+
 export default function BraindumpIndex() {
   // [TODO]:
   // [ ]: I need to extract information about the page to display
@@ -124,6 +138,8 @@ export default function BraindumpIndex() {
 
   const { braindumpMeta, braindumpContent, braindumpContentReferences } =
     useLoaderData();
+
+  console.log("LOGGING THE BRAINDUMP CONTENT: ", { braindumpContent });
 
   const content = useNotionInterpretBlocks(braindumpContent.results);
 

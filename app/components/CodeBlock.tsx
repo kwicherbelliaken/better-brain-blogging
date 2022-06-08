@@ -3,10 +3,8 @@ import { PropsWithChildren, useEffect } from "react";
 import P from "./P";
 
 const CodeBlock = ({
-  children,
   content: { caption, code },
 }: PropsWithChildren<{
-  text: string;
   content: { caption: string; code: string };
 }>) => {
   useEffect(() => {
