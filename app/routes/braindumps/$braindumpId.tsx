@@ -139,14 +139,29 @@ export default function BraindumpIndex() {
   const { braindumpMeta, braindumpContent, braindumpContentReferences } =
     useLoaderData();
 
-  console.log("LOGGING THE BRAINDUMP CONTENT: ", { braindumpContent });
-
   const content = useNotionInterpretBlocks(braindumpContent.results);
 
   if (!braindumpContent || !braindumpMeta) return null;
 
-  const pseudoElementStyles =
-    "before:absolute before:z-[-1] before:h-full before:w-full before:bg-red before: block before:rounded-tl-lg";
+  const getRandomisedBorderRadius = () => {
+    let borderRadius = "";
+
+    for (let j = 0; j < 8; j++) {
+      const nextBorderRadiusEntry = Math.floor(Math.random() * (80 - 20) + 20);
+
+      if (j == 3 || j == 6) {
+        borderRadius += j == 3 ? " 0% /" : " 0%";
+      } else {
+        borderRadius += ` ${nextBorderRadiusEntry}%`;
+      }
+    }
+
+    return borderRadius;
+  };
+
+  // [TODO]:
+  // [ ]: most preferred border radius: 73% 27% 100% 0% / 29% 100% 0% 71%, could be good to diff the output against this
+  const borderRadius = getRandomisedBorderRadius();
 
   const Header = (
     <div className="mb-12 flex flex-col">
@@ -221,7 +236,10 @@ export default function BraindumpIndex() {
 
   return (
     <div className="h-full w-full bg-pink">
-      <div className={`absolute m-4 bg-white p-4`}>
+      <div
+        className={`absolute m-4 bg-white p-4`}
+        style={{ borderRadius: borderRadius }}
+      >
         {Header}
         <div className="flex flex-row justify-center">
           {References}
