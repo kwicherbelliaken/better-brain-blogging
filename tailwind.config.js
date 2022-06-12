@@ -23,6 +23,9 @@ module.exports = {
       },
       pink: "#FADAD8",
       white: "#FFF",
+      yellow: {
+        meringue: '#fff799'
+      }
     },
   },
   plugins: [
