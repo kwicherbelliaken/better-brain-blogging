@@ -23,7 +23,7 @@ const InnerLayout = ({ children }: PropsWithChildren<{}>) => {
 
   useEffect(() => {
     /* 1. set shape transistion into effect on mount */
-    setBorderRadius(_getRandomisedBorderRadius());
+    // setBorderRadius(_getRandomisedBorderRadius());
 
     /* 2. retrigger shape transistion on each batched scroll */
     let debounce = true;
@@ -33,7 +33,7 @@ const InnerLayout = ({ children }: PropsWithChildren<{}>) => {
         setTimeout(() => {
           setBorderRadius(_getRandomisedBorderRadius());
           debounce = true;
-        }, 1250);
+        }, 1000);
       }
     };
 
@@ -45,7 +45,7 @@ const InnerLayout = ({ children }: PropsWithChildren<{}>) => {
 
   return (
     <div
-      className={`transistion h-full w-full bg-white p-4 duration-[1250ms] ease-out`}
+      className={`transistion h-full w-full bg-white p-4 duration-1000 ease-out`}
       style={{ borderRadius: borderRadius }}
     >
       {children}
