@@ -212,7 +212,7 @@ export default function BraindumpIndex() {
   );
 
   return (
-    <div className="h-full w-full bg-pink pt-8">
+    <div className="h-full w-full bg-pink pt-24">
       <InnerLayout>
         {Header}
         <div className="flex flex-row justify-center">
