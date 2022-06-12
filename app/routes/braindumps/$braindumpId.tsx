@@ -9,6 +9,7 @@ import notionClient from "~/integrations/notion";
 import styles from "highlight.js/styles/base16/zenburn.css";
 import CodeBlock from "~/components/CodeBlock";
 import AnimatedButton from "~/components/AnimatedButton";
+import InnerLayout from "./InnerLayout";
 
 const useNotionInterpretBlocks = (
   blocks: GetBlockResponse[]
@@ -143,26 +144,6 @@ export default function BraindumpIndex() {
 
   if (!braindumpContent || !braindumpMeta) return null;
 
-  const getRandomisedBorderRadius = () => {
-    let borderRadius = "";
-
-    for (let j = 0; j < 8; j++) {
-      const nextBorderRadiusEntry = Math.floor(Math.random() * (80 - 20) + 20);
-
-      if (j == 3 || j == 6) {
-        borderRadius += j == 3 ? " 0% /" : " 0%";
-      } else {
-        borderRadius += ` ${nextBorderRadiusEntry}%`;
-      }
-    }
-
-    return borderRadius;
-  };
-
-  // [TODO]:
-  // [ ]: most preferred border radius: 73% 27% 100% 0% / 29% 100% 0% 71%, could be good to diff the output against this
-  const borderRadius = getRandomisedBorderRadius();
-
   const Header = (
     <div className="mb-12 flex flex-col">
       <Title.H1>
@@ -232,16 +213,13 @@ export default function BraindumpIndex() {
 
   return (
     <div className="h-full w-full bg-pink pt-8">
-      <div
-        className={`h-full w-full bg-white p-4`}
-        style={{ borderRadius: borderRadius }}
-      >
+      <InnerLayout>
         {Header}
         <div className="flex flex-row justify-center">
           {References}
           <div className="flex w-3/4 flex-col px-4">{content}</div>
         </div>
-      </div>
+      </InnerLayout>
     </div>
   );
 }
