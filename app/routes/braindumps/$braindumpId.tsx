@@ -9,6 +9,7 @@ import notionClient from "~/integrations/notion";
 import styles from "highlight.js/styles/base16/zenburn.css";
 import CodeBlock from "~/components/CodeBlock";
 import hljs from "highlight.js";
+import AnimatedButton from "~/components/AnimatedButton";
 
 const useNotionInterpretBlocks = (
   blocks: GetBlockResponse[]
@@ -159,6 +160,9 @@ export default function BraindumpIndex() {
     return borderRadius;
   };
 
+  const buttonPseudoElementStyles =
+    "before:absolute before:z-[-1] before:w-0 before:h-100% before:bg-yellow-meringue before:top-0 before:left-0 before:ease-[cubic-bezier(0.95,0.05,0.795,0.035)] hover::before:w-100%";
+
   // [TODO]:
   // [ ]: most preferred border radius: 73% 27% 100% 0% / 29% 100% 0% 71%, could be good to diff the output against this
   const borderRadius = getRandomisedBorderRadius();
@@ -169,12 +173,8 @@ export default function BraindumpIndex() {
         {braindumpMeta["properties"]["title"]["title"][0]["plain_text"]}
       </Title.H1>
       <div className="space-between flex w-full flex-row justify-around pt-6">
-        <div className="w-fit rounded-full py-2 px-2 outline outline-midnight-dark">
-          {braindumpMeta["created_time"]}
-        </div>
-        <div className="w-fit rounded-full py-2 px-2 outline outline-midnight-dark">
-          Uncategorised
-        </div>
+        <AnimatedButton>{braindumpMeta["created_time"]}</AnimatedButton>
+        <AnimatedButton>Uncategorised</AnimatedButton>
       </div>
     </div>
   );
