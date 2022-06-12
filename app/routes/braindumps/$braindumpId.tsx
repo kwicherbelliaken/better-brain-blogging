@@ -8,7 +8,6 @@ import Title from "~/components/Title";
 import notionClient from "~/integrations/notion";
 import styles from "highlight.js/styles/base16/zenburn.css";
 import CodeBlock from "~/components/CodeBlock";
-import hljs from "highlight.js";
 import AnimatedButton from "~/components/AnimatedButton";
 
 const useNotionInterpretBlocks = (
@@ -160,9 +159,6 @@ export default function BraindumpIndex() {
     return borderRadius;
   };
 
-  const buttonPseudoElementStyles =
-    "before:absolute before:z-[-1] before:w-0 before:h-100% before:bg-yellow-meringue before:top-0 before:left-0 before:ease-[cubic-bezier(0.95,0.05,0.795,0.035)] hover::before:w-100%";
-
   // [TODO]:
   // [ ]: most preferred border radius: 73% 27% 100% 0% / 29% 100% 0% 71%, could be good to diff the output against this
   const borderRadius = getRandomisedBorderRadius();
@@ -235,9 +231,9 @@ export default function BraindumpIndex() {
   );
 
   return (
-    <div className="h-full w-full bg-pink">
+    <div className="h-full w-full bg-pink pt-8">
       <div
-        className={`absolute m-4 bg-white p-4`}
+        className={`h-full w-full bg-white p-4`}
         style={{ borderRadius: borderRadius }}
       >
         {Header}
