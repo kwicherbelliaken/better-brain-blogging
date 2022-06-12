@@ -174,7 +174,10 @@ export default function BraindumpIndex() {
               [articleMediaType],
             ] = cells;
             return (
-              <div className="grid-row-gap-0 grid-rows-[repeat(5, minmax(0, auto))] mb-4 grid grid-cols-4 content-center overflow-hidden text-clip p-2 font-sim text-xs uppercase text-graphite-lightest outline outline-white">
+              <div
+                key={entry.id}
+                className="grid-row-gap-0 grid-rows-[repeat(5, minmax(0, auto))] mb-4 grid grid-cols-4 content-center overflow-hidden text-clip p-2 font-sim text-xs uppercase text-graphite-lightest outline outline-white"
+              >
                 <Fragment key={entry.id}>
                   <div className="col-span-4 flex flex-col justify-center py-2">
                     <p className={REFERENCES_FIELD_TITLE_CN}>title</p>
