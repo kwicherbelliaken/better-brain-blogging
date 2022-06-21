@@ -1,16 +1,18 @@
-import { Link, ThrownResponse } from "@remix-run/react";
+import P from "~/components/P";
+import { Link } from "@remix-run/react";
 import { useCatch, useLoaderData } from "@remix-run/react";
+import { json } from "@remix-run/server-runtime";
+import notionClient from "~/integrations/notion";
+import { retrieveBraindumpsFromNotionDatabase } from "./braindumps-helpers";
+import Title from "~/components/Title";
+
+import type { ThrownResponse } from "@remix-run/react";
 import type {
   HeadersFunction,
   LoaderFunction,
 } from "@remix-run/server-runtime";
-import { json } from "@remix-run/server-runtime";
-import notionClient from "~/integrations/notion";
-import { QueryDatabaseResponse } from "@notionhq/client/build/src/api-endpoints";
-import {
-  retrieveBraindumpsFromNotionDatabase,
-  NotionDatabaseAPIMapperResponse,
-} from "./braindumps-helpers";
+import type { QueryDatabaseResponse } from "@notionhq/client/build/src/api-endpoints";
+import type { NotionDatabaseAPIMapperResponse } from "./braindumps-helpers";
 
 type BraindumpsNotFoundResponse = ThrownResponse<404, string>;
 
@@ -55,20 +57,11 @@ export default function BraindumpsIndex() {
     typeof retrieveBraindumpsFromNotionDatabase
   >;
 
-  // [TODO]:
-  // [x]: clean up TS errors in helpers.ts
-  // [x]: add styling to this page
-  // [ ]: think about better naming conventions for the helper functionality
-  // [ ]: some TS tutorials and add to notes
-  // [ ]: some design pattern tutorials
-  // [ ]: think about better error and loading handling before this
-  // [ ]: rename the types in helper.ts
-  // [ ]: think how to use union type as a const
-
   if (!braindumps) return null;
 
   return (
-    <div>
+    <div className="p-24">
+      <Title.H1 styleProps={["pb-12"]}>braindumps</Title.H1>
       {Object.entries(braindumps).map(
         (
           [category, relatedBraindumps]: [
@@ -78,11 +71,20 @@ export default function BraindumpsIndex() {
           keyOfCategories: number
         ) => {
           return (
-            <div key={keyOfCategories} className="w-full">
-              <h3 className="py-3.5 text-4xl font-extrabold uppercase tracking-tight">
+            <div key={keyOfCategories} className="w-full pb-8">
+              <Title.H3
+                styleProps={[
+                  "py-3.5",
+                  "text-4xl",
+                  "font-extrabold",
+                  "uppercase",
+                  "tracking-tight",
+                ]}
+              >
                 {category}
-              </h3>
-              <div className="pl-3.5">
+              </Title.H3>
+
+              <div className="bg-white pl-3.5">
                 {relatedBraindumps.map(
                   (
                     braindump: NotionDatabaseAPIMapperResponse[0],
@@ -91,13 +93,19 @@ export default function BraindumpsIndex() {
                     return (
                       <div
                         key={keyOfBraindumps}
-                        className="flex justify-between"
+                        className="before:border-blue-900 relative flex justify-between before:absolute before:bottom-[calc(50%-1px)] before:w-full before:border-b-[2px] before:border-dotted before:blur-[0.5px]"
                       >
-                        <p className="text-slate-400">{braindump.created_at}</p>
-                        <div className="max-w-[65%] overflow-hidden text-ellipsis whitespace-nowrap text-justify">
-                          <Link to={braindump["Markdown"] ?? "REMOVE_ME"}>
-                            {braindump["Name"]}
-                          </Link>
+                        <P styleProps={["z-10", "pr-2", "bg-white"]}>
+                          {braindump.created_at}
+                        </P>
+                        <div className="z-10 float-right bg-white pl-2">
+                          {braindump["Markdown"] ? (
+                            <Link to={braindump["Markdown"]}>
+                              <P>{braindump["Name"]}</P>
+                            </Link>
+                          ) : (
+                            <P>{braindump["Name"]}</P>
+                          )}
                         </div>
                       </div>
                     );
