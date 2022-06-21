@@ -10,6 +10,7 @@ import styles from "highlight.js/styles/base16/zenburn.css";
 import CodeBlock from "~/components/CodeBlock";
 import AnimatedButton from "~/components/AnimatedButton";
 import InnerLayout from "./InnerLayout";
+import A from "~/components/A";
 
 const useNotionInterpretBlocks = (
   blocks: GetBlockResponse[]
@@ -181,7 +182,12 @@ export default function BraindumpIndex() {
                 <Fragment key={entry.id}>
                   <div className="col-span-4 flex flex-col justify-center py-2">
                     <p className={REFERENCES_FIELD_TITLE_CN}>title</p>
-                    <p className="opacity-75">{articleTitle["plain_text"]}</p>
+                    <A
+                      href={articleUrl["plain_text"]}
+                      styleProps={["opacity-75"]}
+                    >
+                      {articleTitle["plain_text"]}
+                    </A>
                   </div>
                   <div className="col-span-1 col-end-5 flex flex-col items-center justify-center py-2">
                     <p className={REFERENCES_FIELD_TITLE_CN}>author</p>
@@ -189,7 +195,12 @@ export default function BraindumpIndex() {
                   </div>
                   <div className="col-span-4 row-start-3 flex flex-col items-center justify-center py-2">
                     <p className={REFERENCES_FIELD_TITLE_CN}>url</p>
-                    <p className="opacity-75">{articleUrl["plain_text"]}</p>
+                    <A
+                      href={articleUrl["plain_text"]}
+                      styleProps={["opacity-75"]}
+                    >
+                      {articleUrl["plain_text"]}
+                    </A>
                   </div>
                   <div className="col-span-2 row-start-4 flex flex-col items-center justify-center py-2">
                     <p className={REFERENCES_FIELD_TITLE_CN}>published date</p>
