@@ -10,7 +10,7 @@ const Paragraph = <BlockType extends object>({
   block,
 }: ParagraphProps<BlockType>) => {
   return (
-    <P>
+    <P styleProps={["mb-5 inline"]}>
       {block.paragraph.rich_text.map((text, index: number) => {
         const isBold = text.annotations.bold;
         const isUnderlined = text.annotations.underline;

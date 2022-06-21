@@ -1,10 +1,18 @@
+import classNames from "classnames";
 import { PropsWithChildren } from "react";
 
 const P = ({
   children,
-  className,
-}: PropsWithChildren<{ className?: string }>) => (
-  <div className={`mb-5 inline ${className}`}>{children}</div>
+  styleProps,
+}: PropsWithChildren<{ styleProps?: Array<string> }>) => (
+  <div
+    className={classNames(
+      styleProps?.join(" "),
+      "font-nhmb text-graphite-dark"
+    )}
+  >
+    {children}
+  </div>
 );
 
 export default P;

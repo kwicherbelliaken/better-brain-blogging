@@ -11,15 +11,16 @@ const CodeBlock = ({
     // [TODO]:
     // [ ]: execute this closer to the root of the project (NB: it depends on browser based APIs)
     hljs.highlightAll();
-  });
+  }, []);
 
   return (
     <div className="mb-5">
       <pre>
         <code>{code}</code>
       </pre>
-      <P className="italic">{caption}</P>
+      <P styleProps={["italic"]}>{caption}</P>
     </div>
   );
 };
+
 export default CodeBlock;
