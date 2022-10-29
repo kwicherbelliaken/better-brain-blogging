@@ -1,10 +1,13 @@
 import P from "~/components/P";
+import React, { ReactElement, useEffect, useRef, useState } from "react";
 import { Link } from "@remix-run/react";
 import { useCatch, useLoaderData } from "@remix-run/react";
 import { json } from "@remix-run/server-runtime";
 import notionClient from "~/integrations/notion";
 import { retrieveBraindumpsFromNotionDatabase } from "./braindumps-helpers";
 import Title from "~/components/Title";
+import FuzzyScrawl from "fuzzy-scrawl";
+import styles from "node_modules/fuzzy-scrawl/build/esbuild/browser.css";
 
 import type { ThrownResponse } from "@remix-run/react";
 import type {
@@ -41,26 +44,63 @@ export const loader: LoaderFunction = async () => {
   }
 };
 
-export function CatchBoundary() {
-  const caught = useCatch<BraindumpsNotFoundResponse>();
-
-  switch (caught.status) {
-    case 404:
-      return <div>{caught.statusText}</div>;
-    default:
-      throw new Error(`Unaccounted for Error: ${caught.statusText}`);
-  }
+export function ErrorBoundary() {
+  // const caught = useCatch<BraindumpsNotFoundResponse>();
+  // console.log("LOGGING INSIDE THE ERROR BOUNDARY: ", { caught });
+  // switch (caught.status) {
+  //   case 404:
+  //     return <div>{caught.statusText}</div>;
+  //   default:
+  //     throw new Error(`Unaccounted for Error: ${caught.statusText}`);
+  // }
 }
+
+export const links = () => {
+  return [
+    {
+      rel: "stylesheet",
+      href: styles,
+    },
+  ];
+};
 
 export default function BraindumpsIndex() {
   const braindumps = useLoaderData() as ReturnType<
     typeof retrieveBraindumpsFromNotionDatabase
   >;
 
+  const [canUseDOM, setCanUseDOM] = useState(false);
+
+  // INFO: onMount conditionally render client specific Components
+  useEffect(() => setCanUseDOM(true), []);
+
   if (!braindumps) return null;
+
+  const content = (
+    <P
+      styleProps={[
+        "py-3.5",
+        "text-4xl",
+        "font-extrabold",
+        "uppercase",
+        "tracking-tight",
+      ]}
+    >
+      trial content
+    </P>
+  );
 
   return (
     <div className="p-24">
+      {canUseDOM ? (
+        <div className="pb-10">
+          <FuzzyScrawl.ScrawlComponent
+            filterType="circle"
+            content={content}
+            svgFxFilterIndex={3}
+          />
+        </div>
+      ) : null}
       <Title.H1 styleProps={["pb-12"]}>braindumps</Title.H1>
       {Object.entries(braindumps).map(
         (
