@@ -20,7 +20,7 @@ export const links: LinksFunction = () => {
   return [
     { rel: "stylesheet", href: tailwindStylesheetUrl },
     // NOTE: Architect deploys the public directory to /_static/
-    { rel: "icon", href: "/_static/favicon.ico" },
+    { rel: "icon", href: "/_static/dvd.ico" },
   ];
 };
 
