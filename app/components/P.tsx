@@ -7,8 +7,8 @@ const P = ({
 }: PropsWithChildren<{ styleProps?: Array<string> }>) => (
   <div
     className={classNames(
-      styleProps?.join(" "),
-      "font-nhmb text-graphite-dark"
+      "mb-8 font-nhmb text-graphite-dark",
+      styleProps?.join(" ")
     )}
   >
     {children}
