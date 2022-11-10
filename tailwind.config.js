@@ -8,6 +8,11 @@ module.exports = {
         nhmb: ["NaN Holo Mono Blonde"],
         sim: ["Suisse Intl Mono"],
       },
+      gridTemplateRows: {
+        // TODO: do not extend tailwind theme, add this as custom class inline
+        // INFO: simple 9 row grid
+        9: "repeat(9, 1fr)",
+      },
     },
     colors: {
       graphite: {
@@ -24,8 +29,8 @@ module.exports = {
       pink: "#FADAD8",
       white: "#FFF",
       yellow: {
-        meringue: '#fff799'
-      }
+        meringue: "#fff799",
+      },
     },
   },
   plugins: [
