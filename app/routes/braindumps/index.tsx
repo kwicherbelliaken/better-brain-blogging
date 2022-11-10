@@ -6,8 +6,8 @@ import { json } from "@remix-run/server-runtime";
 import notionClient from "~/integrations/notion";
 import { retrieveBraindumpsFromNotionDatabase } from "./braindumps-helpers";
 import Title from "~/components/Title";
-import FuzzyScrawl from "fuzzy-scrawl";
-import styles from "node_modules/fuzzy-scrawl/build/esbuild/browser.css";
+// import FuzzyScrawl from "fuzzy-scrawl";
+// import styles from "node_modules/fuzzy-scrawl/build/esbuild/browser.css";
 
 import type { ThrownResponse } from "@remix-run/react";
 import type {
@@ -55,14 +55,16 @@ export function ErrorBoundary() {
   // }
 }
 
-export const links = () => {
-  return [
-    {
-      rel: "stylesheet",
-      href: styles,
-    },
-  ];
-};
+// TODO: this corresponded to fuzzy-scrawls I needed to load the styles for it
+// TODO: how the fuck I do write a proper library
+// export const links = () => {
+//   return [
+//     {
+//       rel: "stylesheet",
+//       href: styles,
+//     },
+//   ];
+// };
 
 export default function BraindumpsIndex() {
   const braindumps = useLoaderData() as ReturnType<
@@ -92,15 +94,7 @@ export default function BraindumpsIndex() {
 
   return (
     <div className="p-24">
-      {canUseDOM ? (
-        <div className="pb-10">
-          <FuzzyScrawl.ScrawlComponent
-            filterType="circle"
-            content={content}
-            svgFxFilterIndex={3}
-          />
-        </div>
-      ) : null}
+      {canUseDOM ? <div className="pb-10"></div> : null}
       <Title.H1 styleProps={["pb-12"]}>braindumps</Title.H1>
       {Object.entries(braindumps).map(
         (
