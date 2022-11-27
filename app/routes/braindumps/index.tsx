@@ -1,13 +1,15 @@
 import P from "~/components/P";
-import React, { ReactElement, useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import { Link } from "@remix-run/react";
-import { useCatch, useLoaderData } from "@remix-run/react";
+import { useLoaderData } from "@remix-run/react";
 import { json } from "@remix-run/server-runtime";
 import notionClient from "~/integrations/notion";
 import { retrieveBraindumpsFromNotionDatabase } from "./braindumps-helpers";
 import Title from "~/components/Title";
-// import FuzzyScrawl from "fuzzy-scrawl";
-// import styles from "node_modules/fuzzy-scrawl/build/esbuild/browser.css";
+import FuzzyScrawl from "fuzzy-scrawl";
+import fuzzyScrawlStyles from "fuzzy-scrawl-styles";
+
+// TODO: load the typings for fuzzy-scrawl
 
 import type { ThrownResponse } from "@remix-run/react";
 import type {
@@ -16,6 +18,78 @@ import type {
 } from "@remix-run/server-runtime";
 import type { QueryDatabaseResponse } from "@notionhq/client/build/src/api-endpoints";
 import type { NotionDatabaseAPIMapperResponse } from "./braindumps-helpers";
+
+const getRandomIndex = (maxIndex: number) => (index: number) =>
+  index === Math.floor(Math.random() * maxIndex);
+
+const renderBraindumps = (
+  braindump: NotionDatabaseAPIMapperResponse[0],
+  index: number,
+  braindumps: NotionDatabaseAPIMapperResponse
+) => {
+  const braindumpsLength = braindumps.length;
+
+  const showFuzzyScrawl = getRandomIndex(braindumpsLength)(index);
+
+  return (
+    <BraindumpDetails
+      key={index}
+      braindump={braindump}
+      showFuzzyScrawl={showFuzzyScrawl}
+    />
+  );
+};
+
+const BraindumpDetails = ({
+  braindump,
+  showFuzzyScrawl,
+}: {
+  braindump: any;
+  showFuzzyScrawl: boolean;
+}) => {
+  const [canUseDOM, setCanUseDOM] = useState(false);
+
+  useEffect(() => setCanUseDOM(true), []);
+
+  const BraindumpName = () => (
+    <P styleProps={["mb-0", "hover:cursor-pointer"]}>{braindump["Name"]}</P>
+  );
+
+  const LinkToBraindump = () => (
+    <Link to={braindump["Markdown"]}>
+      <BraindumpName />
+    </Link>
+  );
+
+  return (
+    <div className="before:border-blue-900 relative mb-2 flex justify-between before:absolute before:bottom-[calc(50%-1px)] before:w-full before:border-b-[2px] before:border-dotted before:blur-[0.5px]">
+      <P styleProps={["z-10", "pr-2", "bg-white", "mb-0"]}>
+        {braindump.created_at}
+      </P>
+      <div className="z-10  bg-white pl-2">
+        {showFuzzyScrawl && canUseDOM ? (
+          braindump["Markdown"] ? (
+            <FuzzyScrawl.ScrawlComponent
+              content={<LinkToBraindump />}
+              svgFxFilterIndex={3}
+              filterType="circle"
+            />
+          ) : (
+            <FuzzyScrawl.ScrawlComponent
+              content={<BraindumpName />}
+              svgFxFilterIndex={3}
+              filterType="circle"
+            />
+          )
+        ) : braindump["Markdown"] ? (
+          <LinkToBraindump />
+        ) : (
+          <BraindumpName />
+        )}
+      </div>
+    </div>
+  );
+};
 
 type BraindumpsNotFoundResponse = ThrownResponse<404, string>;
 
@@ -55,47 +129,27 @@ export function ErrorBoundary() {
   // }
 }
 
-// TODO: this corresponded to fuzzy-scrawls I needed to load the styles for it
-// TODO: how the fuck I do write a proper library
-// export const links = () => {
-//   return [
-//     {
-//       rel: "stylesheet",
-//       href: styles,
-//     },
-//   ];
-// };
+// TODO: write note about how remix handles styles, particularly for a component library
+export const links = () => {
+  return [
+    {
+      rel: "stylesheet",
+      href: fuzzyScrawlStyles,
+    },
+  ];
+};
 
 export default function BraindumpsIndex() {
   const braindumps = useLoaderData() as ReturnType<
     typeof retrieveBraindumpsFromNotionDatabase
   >;
 
-  const [canUseDOM, setCanUseDOM] = useState(false);
-
-  // INFO: onMount conditionally render client specific Components
-  useEffect(() => setCanUseDOM(true), []);
-
   if (!braindumps) return null;
-
-  const content = (
-    <P
-      styleProps={[
-        "py-3.5",
-        "text-4xl",
-        "font-extrabold",
-        "uppercase",
-        "tracking-tight",
-      ]}
-    >
-      trial content
-    </P>
-  );
 
   return (
     <div className="p-24">
-      {canUseDOM ? <div className="pb-10"></div> : null}
       <Title.H1 styleProps={["pb-12"]}>braindumps</Title.H1>
+
       {Object.entries(braindumps).map(
         (
           [category, relatedBraindumps]: [
@@ -119,32 +173,7 @@ export default function BraindumpsIndex() {
               </Title.H3>
 
               <div className="bg-white pl-3.5">
-                {relatedBraindumps.map(
-                  (
-                    braindump: NotionDatabaseAPIMapperResponse[0],
-                    keyOfBraindumps: number
-                  ) => {
-                    return (
-                      <div
-                        key={keyOfBraindumps}
-                        className="before:border-blue-900 relative flex justify-between before:absolute before:bottom-[calc(50%-1px)] before:w-full before:border-b-[2px] before:border-dotted before:blur-[0.5px]"
-                      >
-                        <P styleProps={["z-10", "pr-2", "bg-white"]}>
-                          {braindump.created_at}
-                        </P>
-                        <div className="z-10 float-right bg-white pl-2">
-                          {braindump["Markdown"] ? (
-                            <Link to={braindump["Markdown"]}>
-                              <P>{braindump["Name"]}</P>
-                            </Link>
-                          ) : (
-                            <P>{braindump["Name"]}</P>
-                          )}
-                        </div>
-                      </div>
-                    );
-                  }
-                )}
+                {relatedBraindumps.map(renderBraindumps)}
               </div>
             </div>
           );
