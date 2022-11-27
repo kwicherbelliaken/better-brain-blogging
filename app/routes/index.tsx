@@ -2,8 +2,21 @@ import { Link, Outlet } from "@remix-run/react";
 import AnimatedButton from "~/components/AnimatedButton";
 import BostockMetaballAnimation from "~/components/BostockMetaballAnimation";
 import Title from "~/components/Title";
+import FuzzyScrawl from "fuzzy-scrawl";
 
 import { useOptionalUser } from "~/utils";
+import { useEffect, useState } from "react";
+
+import styles from "node_modules/fuzzy-scrawl/build/browser.css";
+
+export const links = () => {
+  return [
+    {
+      rel: "stylesheet",
+      href: styles,
+    },
+  ];
+};
 
 const LeftHandPanel = () => {
   const commonGridStyles =
@@ -88,8 +101,37 @@ const LeftHandPanel = () => {
   );
 };
 
+const RightHandPanel = () => {
+  const [canUseDOM, setCanUseDOM] = useState(false);
+
+  // INFO: onMount conditionally render client specific Components
+  useEffect(() => setCanUseDOM(true), []);
+
+  // TODO: make sure the type definitions are being exported
+
+  // TODO: how to ensure that the styles are being referenced...
+
+  return (
+    <div className="flex h-full w-2/3">
+      <div className="flex flex-col space-y-64 p-16">
+        <Title.H3>
+          This is where I will write a small blurb about what the purpose of
+          this website is
+        </Title.H3>
+        <Link to="braindumps">
+          <AnimatedButton styleProps={["px-16", "py-8"]}>
+            <Title.H1>braindumps</Title.H1>
+          </AnimatedButton>
+        </Link>
+      </div>
+    </div>
+  );
+};
+
 export default function Index() {
   const user = useOptionalUser();
+
+  console.log("LOGGING FUZZY SCRAWLS: ", { FuzzyScrawl });
 
   // const AnimationNode = () => {
   //   const ref: React.MutableRefObject<null> = useRef(null)
@@ -102,34 +144,23 @@ export default function Index() {
   // }
 
   // TODO: add the minimum CSS trick
+
   // TODO: read about good CSS practices including which colour to add
 
   // TODO: some JS testing exercises
 
   // TODO: add fonts
   // TODO: write copy for the different sections
+
   // TODO: think about including fuzzy-scrawls?
+
   // TODO: align the divs along left hand vertical axis but also within the center
 
   return (
     <main className="relative h-screen min-h-screen flex-row bg-white sm:flex sm:items-center">
       <Outlet />
       <LeftHandPanel />
-
-      <div className="flex h-full w-2/3">
-        <div className="flex flex-col space-y-64 p-16">
-          <Title.H3>
-            This is where I will write a small blurb about what the purpose of
-            this website is
-          </Title.H3>
-
-          <Link to="braindumps">
-            <AnimatedButton styleProps={["px-16", "py-8"]}>
-              <Title.H1>braindumps</Title.H1>
-            </AnimatedButton>
-          </Link>
-        </div>
-      </div>
+      <RightHandPanel />
     </main>
   );
 }
