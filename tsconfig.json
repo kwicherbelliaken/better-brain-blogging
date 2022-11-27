@@ -14,7 +14,8 @@
     "strict": true,
     "baseUrl": ".",
     "paths": {
-      "~/*": ["./app/*"]
+      "~/*": ["./app/*"],
+      "fuzzy-scrawl-styles": ["./node_modules/fuzzy-scrawl/build/browser.css"]
     },
     "skipLibCheck": true,
     "noEmit": true,
