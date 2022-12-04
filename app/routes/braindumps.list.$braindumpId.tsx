@@ -33,7 +33,7 @@ const InnerLayout = ({ children }: PropsWithChildren<{}>) => {
 
   useEffect(() => {
     /* 1. set shape transistion into effect on mount */
-    // setBorderRadius(_getRandomisedBorderRadius());
+    setBorderRadius(getRandomisedBorderRadius());
 
     /* 2. retrigger shape transistion on each batched scroll */
     let debounce = true;

@@ -1,8 +1,10 @@
+import { redirect } from "@remix-run/node";
 import { Outlet } from "@remix-run/react";
 import BostockMetaballAnimation from "~/components/BostockMetaballAnimation";
 import Title from "~/components/Title";
-
 import { useOptionalUser } from "~/utils";
+
+import type { LoaderFunction } from "@remix-run/node";
 
 const SummaryPanelWithBostockAnimation = () => {
   const commonGridStyles =
@@ -85,6 +87,10 @@ const SummaryPanelWithBostockAnimation = () => {
       </div>
     </div>
   );
+};
+
+export const loader: LoaderFunction = async () => {
+  return redirect("/braindumps");
 };
 
 export default function Index() {
