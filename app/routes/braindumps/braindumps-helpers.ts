@@ -7,9 +7,10 @@ type Braindump = {
 };
 
 enum BraindumpDatabaseColumnsEnum {
-  Content = "Content",
+  ID = "ID",
   Tags = "Tags",
   Name = "Name",
+  Markdown = "Markdown",
 }
 
 type BraindumpDatabaseColumnsForDisplayType = Exclude<
@@ -100,8 +101,11 @@ const _getBraindumpCategory =
  * It retrieves the discrete value for a column. The NotionDatabase API is convoluted and the value is deeply nested and therefore needs to be extracted for eas(ier) access.
  */
 const _getColumnValue = (column: NotionDatabaseColumn) => {
-  if (column[column.type].length) {
-    return column[column.type][0]["text"]["content"];
+  const accessor = column[column.type];
+
+  if (accessor?.length) {
+    if (Array.isArray(accessor)) return accessor[0]["text"]["content"];
+    else return accessor;
   }
 
   return null;

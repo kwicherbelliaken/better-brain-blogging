@@ -1,15 +1,16 @@
 node_modules
 
-/server/index.js
-/server/index.js.map
 
+/* UNIQUE + BUILD */
 /public/build
 preferences.arc
 sam.json
 sam.yaml
 .env
 
+/* GENERATED FILES */
 server/index.js.map
+server/index.js
 
 coverage/
 

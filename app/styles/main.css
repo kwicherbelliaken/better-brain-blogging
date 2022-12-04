@@ -1,0 +1,23 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@font-face {
+  font-family: "PicNic";
+  src: url("../../public/fonts/PicNic-Regular.otf");
+}
+
+@font-face {
+  font-family: "Helvetica";
+  src: url("../../public/fonts/Helvetica.ttf");
+}
+
+@font-face {
+  font-family: "NaN Holo Mono Blonde";
+  src: url("../../public/fonts/NaN-Holo-Mono-Blonde.ttf");
+}
+
+@font-face {
+  font-family: "Suisse Intl Mono";
+  src: url("../../public/fonts/Suisse-Intl-Mono.ttf");
+}

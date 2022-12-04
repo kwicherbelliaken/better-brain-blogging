@@ -7,7 +7,4 @@ const notion = new Client({
   logLevel: isDev ? LogLevel.DEBUG : LogLevel.ERROR,
 });
 
-// [TODO]:
-// > use a singleton to retrieve Notion Client instance
-
 export default notion;
