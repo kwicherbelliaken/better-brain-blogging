@@ -1,5 +1,5 @@
 import type { QueryDatabaseResponse } from "@notionhq/client/build/src/api-endpoints";
-import * as helpersToTest from "../braindumps-helpers";
+import * as helpersToTest from "../notion-crm";
 
 const notionDatabasePayload: QueryDatabaseResponse = {
   object: "list",

@@ -2,7 +2,7 @@ import { Outlet } from "@remix-run/react";
 import { useLoaderData } from "@remix-run/react";
 import { json } from "@remix-run/server-runtime";
 import notionClient from "~/integrations/notion";
-import { retrieveBraindumpsFromNotionDatabase } from "./braindumps/braindumps-helpers";
+import { retrieveBraindumpsFromNotionDatabase } from "./braindumps/notion-crm";
 import Title from "~/components/Title";
 
 import BostockMetaballAnimation from "~/components/BostockMetaballAnimation";

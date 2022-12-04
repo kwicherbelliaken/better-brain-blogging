@@ -3,8 +3,6 @@ import AnimatedButton from "~/components/AnimatedButton";
 import { Link } from "@remix-run/react";
 
 const Introduction = () => {
-  console.log("MADE IT HERE");
-
   return (
     <div className="flex h-full w-2/3">
       <div className="flex flex-col space-y-64 p-16">
