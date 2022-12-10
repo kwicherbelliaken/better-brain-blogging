@@ -1,16 +1,22 @@
-import { PropsWithChildren, useEffect, useState } from "react";
-import { GetBlockResponse } from "@notionhq/client/build/src/api-endpoints";
+import { useEffect, useState, Fragment, useMemo } from "react";
 import { json } from "@remix-run/node";
 import { useLoaderData } from "@remix-run/react";
-import { Fragment, useMemo } from "react";
+import notionClient from "~/integrations/notion";
+
+//? COMPONENTS
 import ImageContainer from "~/components/ImageContainer";
 import Paragraph from "~/components/Paragraph";
 import Title from "~/components/Title";
-import notionClient from "~/integrations/notion";
-import styles from "highlight.js/styles/base16/zenburn.css";
 import CodeBlock from "~/components/CodeBlock";
 import AnimatedButton from "~/components/AnimatedButton";
 import A from "~/components/A";
+
+//? TYPES
+import type { PropsWithChildren } from "react";
+import type { GetBlockResponse } from "@notionhq/client/build/src/api-endpoints";
+
+//? STYLES
+import styles from "highlight.js/styles/base16/zenburn.css";
 
 const getRandomisedBorderRadius = () => {
   let borderRadius = "";
@@ -70,8 +76,6 @@ const useNotionInterpretBlocks = (
     return blocks?.map((block) => {
       if ("type" in block) {
         switch (block.type) {
-          // [TODO]:
-          // [ ]: add a type guard here
           case "paragraph":
             return <Paragraph<GetBlockResponse> key={block.id} block={block} />;
 
@@ -93,9 +97,12 @@ const useNotionInterpretBlocks = (
           //   return <ListItem block={block} key={block.id} />;
 
           case "image":
-            return (
-              <ImageContainer key={block.id} src={block.image.external.url} />
-            );
+            if ("external" in block.image) {
+              return (
+                <ImageContainer key={block.id} src={block.image.external.url} />
+              );
+            }
+            return null;
 
           case "code":
             return (
@@ -214,60 +221,66 @@ export default function BraindumpIndex() {
     <div className="flex w-1/4 flex-col bg-midnight-light">
       <div className="m-4">
         <Title.H3>references</Title.H3>
-        {braindumpContentReferences.results.map((entry) => {
-          const cells = entry["table_row"]["cells"];
+        {braindumpContentReferences.results.map((entry: GetBlockResponse) => {
+          if ("table_row" in entry) {
+            const cells = entry["table_row"]["cells"];
 
-          if (cells.length) {
-            const [
-              [articleTitle],
-              [articleAuthor],
-              [articleUrl],
-              [articlePublishDate],
-              [articleMediaType],
-            ] = cells;
-            return (
-              <div
-                key={entry.id}
-                className="grid-row-gap-0 grid-rows-[repeat(5, minmax(0, auto))] mb-4 grid grid-cols-4 content-center overflow-hidden text-clip p-2 font-sim text-xs uppercase text-graphite-lightest outline outline-white"
-              >
-                <Fragment key={entry.id}>
-                  <div className="col-span-4 flex flex-col justify-center py-2">
-                    <p className={REFERENCES_FIELD_TITLE_CN}>title</p>
-                    <A
-                      href={articleUrl["plain_text"]}
-                      styleProps={["opacity-75"]}
-                    >
-                      {articleTitle["plain_text"]}
-                    </A>
-                  </div>
-                  <div className="col-span-1 col-end-5 flex flex-col items-center justify-center py-2">
-                    <p className={REFERENCES_FIELD_TITLE_CN}>author</p>
-                    <p className="opacity-75">{articleAuthor["plain_text"]}</p>
-                  </div>
-                  <div className="col-span-4 row-start-3 flex flex-col items-center justify-center py-2">
-                    <p className={REFERENCES_FIELD_TITLE_CN}>url</p>
-                    <A
-                      href={articleUrl["plain_text"]}
-                      styleProps={["opacity-75"]}
-                    >
-                      {articleUrl["plain_text"]}
-                    </A>
-                  </div>
-                  <div className="col-span-2 row-start-4 flex flex-col items-center justify-center py-2">
-                    <p className={REFERENCES_FIELD_TITLE_CN}>published date</p>
-                    <p className="opacity-75">
-                      {articlePublishDate["plain_text"]}
-                    </p>
-                  </div>
-                  <div className="col-span-1 col-start-3 row-start-5 flex flex-col items-center justify-center py-2">
-                    <p className={REFERENCES_FIELD_TITLE_CN}>media type</p>
-                    <p className="opacity-75">
-                      {articleMediaType["plain_text"]}
-                    </p>
-                  </div>
-                </Fragment>
-              </div>
-            );
+            if (cells.length) {
+              const [
+                [articleTitle],
+                [articleAuthor],
+                [articleUrl],
+                [articlePublishDate],
+                [articleMediaType],
+              ] = cells;
+              return (
+                <div
+                  key={entry.id}
+                  className="grid-row-gap-0 grid-rows-[repeat(5, minmax(0, auto))] mb-4 grid grid-cols-4 content-center overflow-hidden text-clip p-2 font-sim text-xs uppercase text-graphite-lightest outline outline-white"
+                >
+                  <Fragment key={entry.id}>
+                    <div className="col-span-4 flex flex-col justify-center py-2">
+                      <p className={REFERENCES_FIELD_TITLE_CN}>title</p>
+                      <A
+                        href={articleUrl["plain_text"]}
+                        styleProps={["opacity-75"]}
+                      >
+                        {articleTitle["plain_text"]}
+                      </A>
+                    </div>
+                    <div className="col-span-1 col-end-5 flex flex-col items-center justify-center py-2">
+                      <p className={REFERENCES_FIELD_TITLE_CN}>author</p>
+                      <p className="opacity-75">
+                        {articleAuthor["plain_text"]}
+                      </p>
+                    </div>
+                    <div className="col-span-4 row-start-3 flex flex-col items-center justify-center py-2">
+                      <p className={REFERENCES_FIELD_TITLE_CN}>url</p>
+                      <A
+                        href={articleUrl["plain_text"]}
+                        styleProps={["opacity-75"]}
+                      >
+                        {articleUrl["plain_text"]}
+                      </A>
+                    </div>
+                    <div className="col-span-2 row-start-4 flex flex-col items-center justify-center py-2">
+                      <p className={REFERENCES_FIELD_TITLE_CN}>
+                        published date
+                      </p>
+                      <p className="opacity-75">
+                        {articlePublishDate["plain_text"]}
+                      </p>
+                    </div>
+                    <div className="col-span-1 col-start-3 row-start-5 flex flex-col items-center justify-center py-2">
+                      <p className={REFERENCES_FIELD_TITLE_CN}>media type</p>
+                      <p className="opacity-75">
+                        {articleMediaType["plain_text"]}
+                      </p>
+                    </div>
+                  </Fragment>
+                </div>
+              );
+            }
           }
 
           return null;
