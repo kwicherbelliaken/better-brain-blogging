@@ -16,8 +16,7 @@ import {
 import { getUser } from "./session.server";
 import tailwindStylesheetUrl from "./styles/tailwind.css";
 
-export function ErrorBoundary({ error }) {
-  console.error(error);
+export function ErrorBoundary() {
   return (
     <html>
       <head>

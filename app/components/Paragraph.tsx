@@ -1,3 +1,6 @@
+// @ts-nocheck
+// INFO: exported type defs for Notion API aren't deep enough
+
 import A from "./A";
 import P from "./P";
 import RichText from "./RichText";

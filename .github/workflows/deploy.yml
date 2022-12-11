@@ -53,7 +53,7 @@ jobs:
       - name: 🔎 Type check
         run: npm run typecheck --if-present
 
-  vitest:
+  test:
     name: ⚡ Jest Testing
     runs-on: ubuntu-latest
     steps:
@@ -107,7 +107,7 @@ jobs:
           PORT: "8811"
 
   deploy:
-    needs: [lint, typecheck, vitest, cypress]
+    needs: [lint, typecheck, test, cypress]
     runs-on: ubuntu-latest
 
     steps:

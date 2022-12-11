@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
-import { useCatch } from "@remix-run/react";
-import { useLoaderData } from "@remix-run/react";
+import { useLoaderData, useCatch } from "@remix-run/react";
 import { json } from "@remix-run/server-runtime";
 import notionClient from "~/integrations/notion";
 import { retrieveBraindumpsFromNotionDatabase } from "./notion-crm";
@@ -9,6 +8,8 @@ import { retrieveBraindumpsFromNotionDatabase } from "./notion-crm";
 import { Link } from "@remix-run/react";
 import P from "~/components/P";
 import Title from "~/components/Title";
+// @ts-ignore
+// ! EXPORT PROPER TYPE DEFINITONS
 import FuzzyScrawl from "fuzzy-scrawl";
 
 //? TYPES
@@ -21,6 +22,8 @@ import type { QueryDatabaseResponse } from "@notionhq/client/build/src/api-endpo
 import type { NotionDatabaseAPIMapperResponse } from "./notion-crm";
 
 //? STYLES
+// @ts-ignore
+// ! EXPORT PROPER TYPE DEFINITONS
 import fuzzyScrawlStyles from "fuzzy-scrawl-styles";
 
 type ThrownResponses = ThrownResponse<404, string>;
@@ -45,7 +48,7 @@ export const loader: LoaderFunction = async () => {
   });
 };
 
-export function ErrorBoundary({ error }) {
+export function ErrorBoundary({ error }: { error: Error }) {
   return (
     <div className="flex h-full w-2/3 flex-row items-center justify-center p-24">
       {error.message}
