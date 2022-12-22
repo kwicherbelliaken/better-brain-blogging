@@ -1,6 +1,6 @@
 {
   "exclude": ["./cypress"],
-  "include": ["remix.env.d.ts", "declarations.d.ts", "app/*.ts", "app/*.tsx"],
+  "include": ["remix.env.d.ts", "declarations.d.ts", "app/*.ts", "/*.tsx"],
   "compilerOptions": {
     "lib": ["DOM", "DOM.Iterable", "ES2019"],
     "types": ["node", "jest"],
