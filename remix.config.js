@@ -15,20 +15,18 @@ module.exports = {
     return defineRoutes((route) => {
       if (process.env.NODE_ENV === "production") return;
 
-      /* TODO 
-      > restore this test route creation, not sure why it is erroring.. though perhaps path '__tests/create-user' not existing might have something to do
-        with it.
-        
-      > [READ THIS]: https://remix.run/docs/en/v1/guides/routing
-      */
-
       console.log("⚠️  Test routes enabled.");
-      // route(
-      //   "__tests/create-user",
-      //   path.join(__dirname, "cypress/support/test-routes/create-user.ts")
-      // );
+
+      let appDir = path.join(__dirname, "app");
+
+      route(
+        "__tests/create-user",
+        path.relative(appDir, "cypress/support/test-routes/create-user.ts")
+      );
     });
   },
   sourcemap: true,
   serverDependenciesToBundle: ["fuzzy-scrawl"],
 };
+
+//? what we've got is an inability to discover the file
