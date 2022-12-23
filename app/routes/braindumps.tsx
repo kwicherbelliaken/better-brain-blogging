@@ -1,18 +1,11 @@
 import { Outlet } from "@remix-run/react";
-import { useLoaderData } from "@remix-run/react";
-import { json } from "@remix-run/server-runtime";
-import notionClient from "~/integrations/notion";
-import { retrieveBraindumpsFromNotionDatabase } from "./braindumps/notion-crm";
+
+//? types
+import type { HeadersFunction } from "@remix-run/server-runtime";
+
+//? components
 import Title from "~/components/Title";
-
 import BostockMetaballAnimation from "~/components/BostockMetaballAnimation";
-
-import type { ThrownResponse } from "@remix-run/react";
-import type {
-  HeadersFunction,
-  LoaderFunction,
-} from "@remix-run/server-runtime";
-import type { QueryDatabaseResponse } from "@notionhq/client/build/src/api-endpoints";
 
 const SummaryPanelWithBostockAnimation = () => {
   const commonGridStyles =
@@ -97,51 +90,11 @@ const SummaryPanelWithBostockAnimation = () => {
   );
 };
 
-type BraindumpsNotFoundResponse = ThrownResponse<404, string>;
-
 export const headers: HeadersFunction = ({ loaderHeaders }) => {
   return { "Cache-Control": loaderHeaders.get("Cache-Control")! };
 };
 
-export const loader: LoaderFunction = async () => {
-  try {
-    let httpHeaders = { "Cache-Control": "max-age=3600" };
-
-    const response: QueryDatabaseResponse = await notionClient.databases.query({
-      database_id: process.env.NOTION_DATABASE_ID ?? "",
-    });
-
-    if (!response) {
-      throw json("No Braindumps Found", { status: 404 });
-    }
-
-    return json(retrieveBraindumpsFromNotionDatabase(response), {
-      headers: httpHeaders,
-    });
-  } catch (error) {
-    // [TODO]:
-    // > appropriately handle possible errors here
-  }
-};
-
-export function ErrorBoundary() {
-  // const caught = useCatch<BraindumpsNotFoundResponse>();
-  // console.log("LOGGING INSIDE THE ERROR BOUNDARY: ", { caught });
-  // switch (caught.status) {
-  //   case 404:
-  //     return <div>{caught.statusText}</div>;
-  //   default:
-  //     throw new Error(`Unaccounted for Error: ${caught.statusText}`);
-  // }
-}
-
 export default function BraindumpsIndex() {
-  const braindumps = useLoaderData() as ReturnType<
-    typeof retrieveBraindumpsFromNotionDatabase
-  >;
-
-  if (!braindumps) return null;
-
   return (
     <div className="relative h-screen min-h-screen flex-row bg-white sm:flex sm:items-center">
       <SummaryPanelWithBostockAnimation />
