@@ -16,7 +16,7 @@ import {
 import { getUser } from "./session.server";
 import tailwindStylesheetUrl from "./styles/tailwind.css";
 
-export function ErrorBoundary() {
+export function ErrorBoundary({ error }) {
   return (
     <html>
       <head>
@@ -25,7 +25,9 @@ export function ErrorBoundary() {
         <Links />
       </head>
       <body>
-        {/* add the UI you want your users to see */}
+        <div className="flex h-full w-full flex-row justify-center align-middle">
+          {error.message}
+        </div>
         <Scripts />
       </body>
     </html>
