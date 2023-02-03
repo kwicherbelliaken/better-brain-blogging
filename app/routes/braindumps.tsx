@@ -11,7 +11,7 @@ import Title from "~/components/Title";
 import BostockMetaballAnimation from "~/components/BostockMetaballAnimation";
 
 //? images
-import illustration from "../../public/miguel-cruz-illustration.png""
+import illustration from "../../public/miguel-cruz-illustration.png";
 
 const SummaryPanelWithBostockAnimation = () => {
   const commonGridStyles =
@@ -103,13 +103,7 @@ export const headers: HeadersFunction = ({ loaderHeaders }) => {
 export default function BraindumpsIndex() {
   const isMobile = useCheckMobileScreen();
 
-  // console.log("LOGGING HERE: ", { illustration });
-
-  // const bgStyle = `bg-[url(${illustration})]`;
-
-  // info: where is the background image being fetched from?
-  // info: I haven't tried declaring my own class in the base style sheet
-
+  const styleWithBgImage = `flex h-full w-full flex-col justify-center bg-[url(${illustration})] bg-cover bg-center bg-no-repeat p-10 align-middle`;
 
   return (
     <div className="relative h-screen min-h-screen flex-row bg-white sm:flex sm:items-center">
@@ -119,19 +113,14 @@ export default function BraindumpsIndex() {
           <Outlet />
         </>
       ) : (
-        <>
-          <img src={illustration} />
-          <div
-            className="flex h-full w-full flex-col justify-center bg-cover bg-center bg-no-repeat p-10 align-middle"
-          >
-            <div className="pb-10">
-              <Title.H3>Oh! Bugger!</Title.H3>
-            </div>
-            <Title.H4>
-              y'all gonna need a lappy toppy or bigger to see this web page
-            </Title.H4>
+        <div className={styleWithBgImage}>
+          <div className="pb-10">
+            <Title.H3>Oh! Bugger!</Title.H3>
           </div>
-        </>
+          <Title.H4>
+            y'all gonna need a lappy toppy or bigger phone to see this web page
+          </Title.H4>
+        </div>
       )}
     </div>
   );
