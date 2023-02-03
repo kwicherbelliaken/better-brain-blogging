@@ -2,22 +2,46 @@
 @tailwind components;
 @tailwind utilities;
 
-@font-face {
-  font-family: "PicNic";
-  src: url("../../public/fonts/PicNic-Regular.otf");
-}
+@layer base {
+  @font-face {
+    font-family: "PicNic";
+    src: url("../../public/fonts/PicNic-Regular.otf");
+  }
 
-@font-face {
-  font-family: "Helvetica";
-  src: url("../../public/fonts/Helvetica.ttf");
-}
+  @font-face {
+    font-family: "Helvetica";
+    src: url("../../public/fonts/Helvetica.ttf");
+  }
 
-@font-face {
-  font-family: "NaN Holo Mono Blonde";
-  src: url("../../public/fonts/NaN-Holo-Mono-Blonde.ttf");
-}
+  @font-face {
+    font-family: "NaN Holo Mono Blonde";
+    src: url("../../public/fonts/NaN-Holo-Mono-Blonde.ttf");
+  }
 
-@font-face {
-  font-family: "Suisse Intl Mono";
-  src: url("../../public/fonts/Suisse-Intl-Mono.ttf");
+  @font-face {
+    font-family: "Suisse Intl Mono";
+    src: url("../../public/fonts/Suisse-Intl-Mono.ttf");
+  }
+
+  h1 {
+    @apply font-picnic text-9xl text-midnight-light;
+  }
+
+  h2 {
+    @apply pb-8 font-nhmb sm:text-8xl;
+  }
+
+  h3 {
+    @apply font-helvetica text-midnight-light sm:text-6xl;
+  }
+
+  h4 {
+    @apply font-helvetica text-midnight-light sm:text-4xl;
+  }
+
+  body {
+    @apply my-0 mx-auto leading-6;
+
+    /* padding: 4em 1em; */
+  }
 }
