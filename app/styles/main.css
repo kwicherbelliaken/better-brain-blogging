@@ -24,24 +24,31 @@
   }
 
   h1 {
-    @apply font-picnic text-9xl text-midnight-light;
+    @apply font-picnic text-2xl text-midnight-light md:text-4xl;
   }
 
   h2 {
-    @apply pb-8 font-nhmb sm:text-8xl;
+    @apply text:xl pb-8 font-nhmb md:text-3xl;
   }
 
   h3 {
-    @apply font-helvetica text-midnight-light sm:text-6xl;
+    @apply font-helvetica text-lg text-midnight-light md:text-2xl;
   }
 
   h4 {
-    @apply font-helvetica text-midnight-light sm:text-4xl;
+    @apply font-helvetica text-base text-midnight-light md:text-lg;
+  }
+
+  p {
+    @apply text-sm md:text-base;
   }
 
   body {
-    @apply my-0 mx-auto leading-6;
+    @apply mx-auto mx-auto h-full leading-6;
+  }
 
-    /* padding: 4em 1em; */
+  body,
+  main {
+    @apply relative h-screen min-h-screen flex-row bg-white sm:flex sm:items-center;
   }
 }
