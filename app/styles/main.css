@@ -28,7 +28,7 @@
   }
 
   h2 {
-    @apply text:xl pb-8 font-nhmb md:text-3xl;
+    @apply pb-8 font-nhmb text-xl md:text-3xl;
   }
 
   h3 {
