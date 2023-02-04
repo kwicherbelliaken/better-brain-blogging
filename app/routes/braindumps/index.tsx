@@ -10,11 +10,13 @@ const Introduction = () => {
           This is where I will write a small blurb about what the purpose of
           this website is
         </Title.H3>
-        <Link to="list">
-          <AnimatedButton styleProps={["px-16", "py-8"]}>
-            <Title.H1>braindumps</Title.H1>
-          </AnimatedButton>
-        </Link>
+        <div className="flex justify-center">
+          <Link to="list">
+            <AnimatedButton styleProps={["px-16", "py-8"]}>
+              <Title.H1>braindumps</Title.H1>
+            </AnimatedButton>
+          </Link>
+        </div>
       </div>
     </div>
   );

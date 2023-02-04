@@ -3,9 +3,15 @@ import { Outlet } from "@remix-run/react";
 //? types
 import type { HeadersFunction } from "@remix-run/server-runtime";
 
+//? hooks
+import { useCheckMobileScreen } from "../hooks";
+
 //? components
 import Title from "~/components/Title";
 import BostockMetaballAnimation from "~/components/BostockMetaballAnimation";
+
+//? images
+import illustration from "../../public/miguel-cruz-illustration.png";
 
 const SummaryPanelWithBostockAnimation = () => {
   const commonGridStyles =
@@ -95,10 +101,27 @@ export const headers: HeadersFunction = ({ loaderHeaders }) => {
 };
 
 export default function BraindumpsIndex() {
+  const isMobile = useCheckMobileScreen();
+
+  const styleWithBgImage = `flex h-full w-full flex-col justify-center bg-[url(${illustration})] bg-cover bg-center bg-no-repeat p-10 align-middle`;
+
   return (
     <div className="relative h-screen min-h-screen flex-row bg-white sm:flex sm:items-center">
-      <SummaryPanelWithBostockAnimation />
-      <Outlet />
+      {!isMobile ? (
+        <>
+          <SummaryPanelWithBostockAnimation />
+          <Outlet />
+        </>
+      ) : (
+        <div className={styleWithBgImage}>
+          <div className="pb-10">
+            <Title.H3>Oh! Bugger!</Title.H3>
+          </div>
+          <Title.H4>
+            y'all gonna need a lappy toppy or bigger phone to see this web page
+          </Title.H4>
+        </div>
+      )}
     </div>
   );
 }
