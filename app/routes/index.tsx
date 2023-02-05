@@ -1,6 +1,5 @@
 import { redirect } from "@remix-run/node";
 import { Outlet } from "@remix-run/react";
-import { useOptionalUser } from "~/utils";
 
 import type { LoaderFunction } from "@remix-run/node";
 
@@ -9,8 +8,6 @@ export const loader: LoaderFunction = async () => {
 };
 
 export default function Index() {
-  const user = useOptionalUser();
-
   // TODO: add the minimum CSS trick
 
   // TODO: read about good CSS practices including which colour to add

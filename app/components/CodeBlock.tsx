@@ -1,5 +1,5 @@
 import hljs from "highlight.js";
-import { PropsWithChildren, useEffect } from "react";
+import { type PropsWithChildren, useEffect } from "react";
 import P from "./P";
 
 const CodeBlock = ({
