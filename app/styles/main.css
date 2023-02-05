@@ -49,6 +49,6 @@
 
   body,
   main {
-    @apply relative h-screen min-h-screen flex-row bg-white sm:flex sm:items-center;
+    @apply relative h-screen min-h-screen flex-row bg-white;
   }
 }
