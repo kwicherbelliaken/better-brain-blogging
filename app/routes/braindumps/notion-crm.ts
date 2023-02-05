@@ -1,4 +1,4 @@
-import { QueryDatabaseResponse } from "@notionhq/client/build/src/api-endpoints";
+import type { QueryDatabaseResponse } from "@notionhq/client/build/src/api-endpoints";
 
 type Braindump = {
   [key in BraindumpDatabaseColumnsForDisplayType]: string;
