@@ -5,10 +5,15 @@ import { Link } from "@remix-run/react";
 const Introduction = () => {
   return (
     <div className="flex h-full w-2/3">
-      <div className="flex flex-col space-y-64 p-16">
+      <div className="flex flex-col space-y-32 p-16">
         <Title.H3>
-          This is where I will write a small blurb about what the purpose of
-          this website is
+          Inside is a collection of braindumps. These are things I have tried to
+          figure out for myself, summarised for you.
+        </Title.H3>
+        <Title.H3>
+          I've tried to catalogue the content per the topics it touches. But,
+          hey, I'm no good an arbiter of pigeon holes sometimes, so it might not
+          be to everyones liking or understanding.
         </Title.H3>
         <div className="flex justify-center">
           <Link to="list">
