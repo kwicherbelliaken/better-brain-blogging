@@ -91,55 +91,55 @@ export default function BraindumpsList() {
   if (!braindumps) return null;
 
   return (
-    <div className="h-full w-2/3 p-24">
-      <Title.H1 styleProps={["pb-12"]}>braindumps</Title.H1>
+    <div className="h-full w-2/3">
+      <div className="p-24">
+        {Object.entries(braindumps).map(
+          (
+            [category, relatedBraindumps]: [
+              category: string,
+              relatedBraindumps: NotionDatabaseAPIMapperResponse
+            ],
+            keyOfCategories: number
+          ) => {
+            return (
+              <div key={keyOfCategories} className="w-full pb-8">
+                <Title.H3
+                  styleProps={[
+                    "py-3.5",
+                    "text-4xl",
+                    "font-extrabold",
+                    "uppercase",
+                    "tracking-tight",
+                  ]}
+                >
+                  {category}
+                </Title.H3>
 
-      {Object.entries(braindumps).map(
-        (
-          [category, relatedBraindumps]: [
-            category: string,
-            relatedBraindumps: NotionDatabaseAPIMapperResponse
-          ],
-          keyOfCategories: number
-        ) => {
-          return (
-            <div key={keyOfCategories} className="w-full pb-8">
-              <Title.H3
-                styleProps={[
-                  "py-3.5",
-                  "text-4xl",
-                  "font-extrabold",
-                  "uppercase",
-                  "tracking-tight",
-                ]}
-              >
-                {category}
-              </Title.H3>
+                <div className="bg-white pl-3.5">
+                  {relatedBraindumps.map(
+                    (
+                      braindump: NotionDatabaseAPIMapperResponse[0],
+                      index: number,
+                      braindumps: NotionDatabaseAPIMapperResponse
+                    ) => {
+                      const showFuzzyScrawl =
+                        index === Math.floor(Math.random() * braindumps.length);
 
-              <div className="bg-white pl-3.5">
-                {relatedBraindumps.map(
-                  (
-                    braindump: NotionDatabaseAPIMapperResponse[0],
-                    index: number,
-                    braindumps: NotionDatabaseAPIMapperResponse
-                  ) => {
-                    const showFuzzyScrawl =
-                      index === Math.floor(Math.random() * braindumps.length);
-
-                    return (
-                      <BraindumpDetails
-                        key={index}
-                        braindump={braindump}
-                        showFuzzyScrawl={showFuzzyScrawl}
-                      />
-                    );
-                  }
-                )}
+                      return (
+                        <BraindumpDetails
+                          key={index}
+                          braindump={braindump}
+                          showFuzzyScrawl={showFuzzyScrawl}
+                        />
+                      );
+                    }
+                  )}
+                </div>
               </div>
-            </div>
-          );
-        }
-      )}
+            );
+          }
+        )}
+      </div>
     </div>
   );
 }

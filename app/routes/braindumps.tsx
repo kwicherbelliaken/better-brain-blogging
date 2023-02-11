@@ -1,3 +1,4 @@
+import React from "react";
 import { Outlet } from "@remix-run/react";
 
 //? types
@@ -13,84 +14,98 @@ import BostockMetaballAnimation from "~/components/BostockMetaballAnimation";
 //? images
 import illustration from "../../public/miguel-cruz-illustration.png";
 
-const SummaryPanelWithBostockAnimation = () => {
-  const commonGridStyles =
-    "font-helvetica flex justify-center outline outline-1 outline-midnight-dark items-center";
+const commonGridStyles =
+  "font-helvetica flex justify-center outline outline-1 outline-midnight-dark items-center";
 
+const Section = ({ children }) => <>{children}</>;
+
+Section.Top = () => (
+  <>
+    <div
+      className={`col-start-1 col-end-3 flex items-center justify-center font-helvetica outline outline-1 outline-midnight-dark`}
+    >
+      2023
+    </div>
+    <div className={`col-start-3 col-end-9 ${commonGridStyles} space-x-6`}>
+      <p>badly</p>
+      <p>juiced</p>
+    </div>
+
+    <div className={`col-start-9 col-end-11 ${commonGridStyles}`}>
+      good learnings
+    </div>
+  </>
+);
+
+Section.Middle = () => (
+  <div
+    className={`${commonGridStyles} col-start-1 col-end-11 row-start-2 row-end-5 flex-col`}
+  >
+    <Title.H1 styleProps={["text-6xl"]}>BRAINDUMPS</Title.H1>
+
+    <p>/brah-ay-nuhh-doo-mmmps/</p>
+  </div>
+);
+
+Section.Bottom = () => (
+  <>
+    <div
+      className={`col-start-1 col-end-5 row-start-5 row-end-7 flex flex-row items-center space-y-2 font-helvetica outline outline-1 outline-midnight-dark`}
+    >
+      <div className="flex flex-col pl-8">
+        <p>ai free</p>
+        <p>organic content</p>
+      </div>
+    </div>
+
+    <div
+      className={`col-start-1 col-end-5 row-span-3 row-start-7 flex flex-row items-center space-y-2 font-helvetica outline outline-1 outline-midnight-dark`}
+    >
+      <div className="flex flex-col pl-8">
+        <p className="font-semibold">notes:</p>
+        <p>very refreshing and effervescent</p>
+      </div>
+    </div>
+
+    <div
+      className={`col-start-5 col-end-8 row-span-4 row-start-5 flex flex-row items-center space-y-2 font-helvetica outline outline-1 outline-midnight-dark`}
+    >
+      <div className="flex flex-col pl-8">
+        <p className="font-semibold">free from:</p>
+        <p>dipshittedness and flaky renderings</p>
+      </div>
+    </div>
+    <div
+      className={`col-start-8 col-end-11 row-span-4 row-start-5 flex flex-row items-center space-y-2 font-helvetica outline outline-1 outline-midnight-dark`}
+    >
+      <div className="flex flex-col pl-8">
+        <p className="font-semibold">pairs well with:</p>
+        <p>your all time favourite biscuit</p>
+      </div>
+    </div>
+
+    <div
+      className={`row-start-9 col-start-5 col-end-8 row-span-1 flex flex-row items-center font-helvetica outline outline-1 outline-midnight-dark`}
+    >
+      <p className="pl-8">vegan friendly</p>
+    </div>
+
+    <div
+      className={`row-start-9 col-start-8 col-end-11 row-span-1 flex flex-row items-center font-helvetica outline outline-1 outline-midnight-dark`}
+    >
+      <p className="pl-8">penned in wellington</p>
+    </div>
+  </>
+);
+
+const SummaryPanelWithBostockAnimation = () => {
   return (
-    <div className="relative flex h-full w-1/3 flex-auto flex-col items-center justify-center overflow-hidden">
+    <div className="relative flex h-full flex-auto flex-col items-center justify-center overflow-hidden">
       <BostockMetaballAnimation />
       <div className="z-10 m-10 grid grid-cols-10 grid-rows-9 bg-white p-4 outline outline-1 outline-midnight-dark">
-        <div className={`col-start-1 col-end-3 ${commonGridStyles}`}>2022</div>
-
-        <div className={`col-start-3 col-end-9 ${commonGridStyles} space-x-6`}>
-          <p>alc 10%</p>
-          <p>bp vol</p>
-        </div>
-
-        <div
-          className={`col-start-9 col-end-11 text-center ${commonGridStyles}`}
-        >
-          sparkling wine
-        </div>
-
-        <div
-          className={`${commonGridStyles} col-start-1 col-end-11 row-start-2 row-end-5 flex-col`}
-        >
-          <Title.H1 styleProps={["text-6xl"]}>BRAINDUMPS</Title.H1>
-
-          <p>/brah-ay-nuhh-doo-mmmps/</p>
-        </div>
-
-        {/* SECTION:  */}
-        <div
-          className={`${commonGridStyles} col-start-1 col-end-5 row-start-5 row-end-7 flex-col`}
-        >
-          <div>
-            <p>made with</p>
-            <p>granopla grapes</p>
-          </div>
-        </div>
-
-        <div
-          className={`${commonGridStyles} col-start-1 col-end-5 row-span-3 row-start-7 flex-col text-center`}
-        >
-          <div>
-            notes:
-            <br />
-            very refreshing and effervescent
-          </div>
-        </div>
-
-        {/* SECTION:  */}
-        <div
-          className={`${commonGridStyles} col-start-5 col-end-8 row-span-4 row-start-5 flex-col space-y-2`}
-        >
-          <div>
-            <p>free from:</p>
-            <p>concentrates and artificial colours</p>
-          </div>
-        </div>
-        <div
-          className={`${commonGridStyles} col-start-8 col-end-11 row-span-4 row-start-5 flex-col space-y-2`}
-        >
-          <p>pairs well with:</p>
-          <p>the sound of laughter and moments to remember</p>
-        </div>
-
-        {/* SECTION:  */}
-
-        <div
-          className={`${commonGridStyles} row-start-9 col-start-5 col-end-8 row-span-1`}
-        >
-          vegan friendly
-        </div>
-
-        <div
-          className={`${commonGridStyles} row-start-9 col-start-8 col-end-11 row-span-1`}
-        >
-          made in spain
-        </div>
+        <Section.Top />
+        <Section.Middle />
+        <Section.Bottom />
       </div>
     </div>
   );
