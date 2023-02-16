@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Outlet } from "@remix-run/react";
 
 //? types
@@ -118,7 +118,16 @@ export const headers: HeadersFunction = ({ loaderHeaders }) => {
 export default function BraindumpsIndex() {
   const isMobile = useCheckMobileScreen();
 
-  const styleWithBgImage = `flex h-full w-full flex-col justify-center bg-[url(${illustration})] bg-cover bg-center bg-no-repeat p-10 align-middle`;
+  const [shouldRender, setShouldRender] = useState(false);
+
+  useEffect(() => {
+    //! NB: too much of this page depends on browser based APIs (see useCheckMobileScreen hook), so... don't render unless on the client
+    setShouldRender(true);
+  }, []);
+
+  if (!shouldRender) {
+    return null;
+  }
 
   return (
     <div className="relative h-screen min-h-screen flex-row bg-white sm:flex sm:items-center">
@@ -128,7 +137,9 @@ export default function BraindumpsIndex() {
           <Outlet />
         </>
       ) : (
-        <div className={styleWithBgImage}>
+        <div
+          className={`flex h-full w-full flex-col justify-center bg-[url(${illustration})] bg-cover bg-center bg-no-repeat p-10 align-middle`}
+        >
           <div className="pb-10">
             <Title.H3>Oh! Bugger!</Title.H3>
           </div>
