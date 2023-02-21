@@ -24,7 +24,7 @@
   }
 
   h1 {
-    @apply font-picnic text-2xl text-midnight-light md:text-4xl;
+    @apply font-sim text-2xl text-midnight-light md:text-4xl;
   }
 
   h2 {
@@ -44,11 +44,11 @@
   }
 
   body {
-    @apply mx-auto mx-auto h-full leading-6;
+    @apply mx-auto mx-auto leading-6;
   }
 
   body,
   main {
-    @apply relative h-screen min-h-screen flex-row bg-white;
+    @apply relative min-h-screen flex-row  bg-white;
   }
 }
