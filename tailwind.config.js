@@ -13,6 +13,9 @@ module.exports = {
         // INFO: simple 9 row grid
         9: "repeat(9, 1fr)",
       },
+      backgroundImage: {
+        "miguel-cruz-illustration": "url(../../miguel-cruz-illustration.png)",
+      },
     },
     colors: {
       graphite: {

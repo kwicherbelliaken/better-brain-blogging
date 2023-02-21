@@ -3,8 +3,10 @@ import AnimatedButton from "~/components/AnimatedButton";
 import { Link } from "@remix-run/react";
 
 const Introduction = () => {
+  //! NB: h-[calc(100vh-4rem)] needed to explicitly set the height otherwise we get scrollbars
+  //! https://github.com/slackermorris/better-brain-blogging/issues/10#issuecomment-1437429507
   return (
-    <div className="flex h-full w-2/3">
+    <div className="flex h-[calc(100vh-4rem)] w-2/3">
       <div className="flex flex-col space-y-32 p-16">
         <Title.H3>
           Inside is a collection of braindumps. These are things I have tried to

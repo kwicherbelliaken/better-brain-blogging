@@ -60,11 +60,9 @@ export const loader: LoaderFunction = async ({ request }) => {
 
 function Header() {
   return (
-    <div className="relative flex h-16 w-full flex-row justify-between bg-[color:rgba(0,0,0,1)] text-white">
-      <div>djuhurd!</div>
-      <div className="flex flex-row justify-between">
+    <div className="relative block h-16 w-full bg-[color:rgba(0,0,0,1)] text-white">
+      <div className="flex h-full flex-row items-center justify-end">
         <div className="pr-8">slackermorris</div>
-        <div>icon</div>
       </div>
     </div>
   );

@@ -11,9 +11,6 @@ import { useCheckMobileScreen } from "../hooks";
 import Title from "~/components/Title";
 import BostockMetaballAnimation from "~/components/BostockMetaballAnimation";
 
-//? images
-import illustration from "../../public/miguel-cruz-illustration.png";
-
 const commonGridStyles =
   "font-helvetica flex justify-center outline outline-1 outline-midnight-dark items-center";
 
@@ -41,7 +38,7 @@ Section.Middle = () => (
   <div
     className={`${commonGridStyles} col-start-1 col-end-11 row-start-2 row-end-5 flex-col`}
   >
-    <Title.H1 styleProps={["text-6xl"]}>BRAINDUMPS</Title.H1>
+    <Title.H1 styleProps={["text-8xl", "font-picnic"]}>BRAINDUMPS</Title.H1>
 
     <p>/brah-ay-nuhh-doo-mmmps/</p>
   </div>
@@ -99,8 +96,10 @@ Section.Bottom = () => (
 );
 
 const SummaryPanelWithBostockAnimation = () => {
+  //! NB: h-[calc(100vh-4rem)] needed to explicitly set the height otherwise we get scrollbars
+  //! https://github.com/slackermorris/better-brain-blogging/issues/10#issuecomment-1437429507
   return (
-    <div className="relative flex h-full flex-auto flex-col items-center justify-center overflow-hidden">
+    <div className="relative flex h-[calc(100vh-4rem)] flex-auto flex-col items-center justify-center overflow-hidden">
       <BostockMetaballAnimation />
       <div className="z-10 m-10 grid grid-cols-10 grid-rows-9 bg-white p-4 outline outline-1 outline-midnight-dark">
         <Section.Top />
@@ -130,23 +129,30 @@ export default function BraindumpsIndex() {
   }
 
   return (
-    <div className="relative h-screen min-h-screen flex-row bg-white sm:flex sm:items-center">
+    <div className="relative flex-row bg-white sm:flex sm:items-center">
       {!isMobile ? (
         <>
           <SummaryPanelWithBostockAnimation />
           <Outlet />
         </>
       ) : (
-        <div
-          className={`flex h-full w-full flex-col justify-center bg-[url(${illustration})] bg-cover bg-center bg-no-repeat p-10 align-middle`}
-        >
-          <div className="pb-10">
-            <Title.H3>Oh! Bugger!</Title.H3>
+        <>
+          <div
+            className={`h-[calc(100vh-4rem)] w-full bg-miguel-cruz-illustration bg-cover bg-center bg-no-repeat`}
+          />
+
+          <div className="absolute h-full w-full bg-white/25 backdrop-blur-sm hover:backdrop-blur-lg" />
+
+          <div className="absolute p-10">
+            <div className="pb-10">
+              <Title.H2 styleProps={["font-semibold"]}>Oh! Bugger!</Title.H2>
+            </div>
+            <Title.H4>
+              I ceebz making this mobile friendly atm. Y'all gonna need a lappy
+              toppy or bigger phone to see this web page
+            </Title.H4>
           </div>
-          <Title.H4>
-            y'all gonna need a lappy toppy or bigger phone to see this web page
-          </Title.H4>
-        </div>
+        </>
       )}
     </div>
   );
