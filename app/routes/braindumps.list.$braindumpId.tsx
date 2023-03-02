@@ -1,3 +1,4 @@
+import React from "react";
 import { useEffect, useState, Fragment, useMemo } from "react";
 import { json } from "@remix-run/node";
 import { useLoaderData } from "@remix-run/react";
@@ -8,7 +9,6 @@ import ImageContainer from "~/components/ImageContainer";
 import Paragraph from "~/components/Paragraph";
 import Title from "~/components/Title";
 import CodeBlock from "~/components/CodeBlock";
-import AnimatedButton from "~/components/AnimatedButton";
 import A from "~/components/A";
 
 //? TYPES
@@ -17,6 +17,7 @@ import type { GetBlockResponse } from "@notionhq/client/build/src/api-endpoints"
 
 //? STYLES
 import styles from "highlight.js/styles/base16/zenburn.css";
+import { PillButton } from "../components/button";
 
 const getRandomisedBorderRadius = () => {
   let borderRadius = "";
@@ -205,12 +206,12 @@ export default function BraindumpIndex() {
 
   const Header = (
     <div className="mb-12 flex flex-col">
-      <Title.H1>
+      <Title.H1 styleProps={["text-8xl"]}>
         {braindumpMeta["properties"]["title"]["title"][0]["plain_text"]}
       </Title.H1>
       <div className="space-between flex w-full flex-row justify-around pt-6">
-        <AnimatedButton>{braindumpMeta["created_time"]}</AnimatedButton>
-        <AnimatedButton>Uncategorised</AnimatedButton>
+        <PillButton>{braindumpMeta["created_time"]}</PillButton>
+        <PillButton>Uncategorised</PillButton>
       </div>
     </div>
   );
@@ -218,9 +219,9 @@ export default function BraindumpIndex() {
   const REFERENCES_FIELD_TITLE_CN = "self-baseline pb-1 font-bold lowercase";
 
   const References = (
-    <div className="flex w-1/4 flex-col bg-midnight-light">
+    <div className="flex w-1/4 flex-col bg-midnight-light text-graphite-lightest">
       <div className="m-4">
-        <Title.H3>references</Title.H3>
+        <Title.H3 styleProps={["text-graphite-lightest"]}>references</Title.H3>
         {braindumpContentReferences.results.map((entry: GetBlockResponse) => {
           if ("table_row" in entry) {
             const cells = entry["table_row"]["cells"];
@@ -236,10 +237,10 @@ export default function BraindumpIndex() {
               return (
                 <div
                   key={entry.id}
-                  className="grid-row-gap-0 grid-rows-[repeat(5, minmax(0, auto))] mb-4 grid grid-cols-4 content-center overflow-hidden text-clip p-2 font-sim text-xs uppercase text-graphite-lightest outline outline-white"
+                  className="grid-row-gap-0 grid-rows-[repeat(5, minmax(0, auto))] mb-4 grid grid-cols-4 content-center overflow-hidden text-clip p-2 font-sim text-xs uppercase outline outline-white"
                 >
                   <Fragment key={entry.id}>
-                    <div className="col-span-4 flex flex-col justify-center py-2">
+                    <div className="col-span-4 flex flex-col py-2">
                       <p className={REFERENCES_FIELD_TITLE_CN}>title</p>
                       <A
                         href={articleUrl["plain_text"]}
@@ -248,13 +249,13 @@ export default function BraindumpIndex() {
                         {articleTitle["plain_text"]}
                       </A>
                     </div>
-                    <div className="col-span-1 col-end-5 flex flex-col items-center justify-center py-2">
+                    <div className="col-span-1 col-end-4 flex flex-col py-2">
                       <p className={REFERENCES_FIELD_TITLE_CN}>author</p>
                       <p className="opacity-75">
                         {articleAuthor["plain_text"]}
                       </p>
                     </div>
-                    <div className="col-span-4 row-start-3 flex flex-col items-center justify-center py-2">
+                    <div className="col-span-4 row-start-3 flex flex-col py-2">
                       <p className={REFERENCES_FIELD_TITLE_CN}>url</p>
                       <A
                         href={articleUrl["plain_text"]}
@@ -263,7 +264,7 @@ export default function BraindumpIndex() {
                         {articleUrl["plain_text"]}
                       </A>
                     </div>
-                    <div className="col-span-2 row-start-4 flex flex-col items-center justify-center py-2">
+                    <div className="col-span-2 row-start-4 flex flex-col py-2">
                       <p className={REFERENCES_FIELD_TITLE_CN}>
                         published date
                       </p>
@@ -271,7 +272,7 @@ export default function BraindumpIndex() {
                         {articlePublishDate["plain_text"]}
                       </p>
                     </div>
-                    <div className="col-span-1 col-start-3 row-start-5 flex flex-col items-center justify-center py-2">
+                    <div className="col-span-1 col-start-3 row-start-5 flex flex-col py-2">
                       <p className={REFERENCES_FIELD_TITLE_CN}>media type</p>
                       <p className="opacity-75">
                         {articleMediaType["plain_text"]}
