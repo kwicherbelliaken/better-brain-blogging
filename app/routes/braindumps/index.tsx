@@ -1,5 +1,5 @@
 import Title from "~/components/Title";
-import AnimatedButton from "~/components/AnimatedButton";
+import { AnimatedButton } from "~/components/button";
 import { Link } from "@remix-run/react";
 
 const Introduction = () => {
