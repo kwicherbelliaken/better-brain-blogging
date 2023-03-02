@@ -219,9 +219,8 @@ export default function BraindumpIndex() {
   const REFERENCES_FIELD_TITLE_CN = "self-baseline pb-1 font-bold lowercase";
 
   const References = (
-    <div className="flex w-1/4 flex-col bg-midnight-light text-graphite-lightest">
+    <div className="flex w-1/4 flex-col text-graphite-lightest">
       <div className="m-4">
-        <Title.H3 styleProps={["text-graphite-lightest"]}>references</Title.H3>
         {braindumpContentReferences.results.map((entry: GetBlockResponse) => {
           if ("table_row" in entry) {
             const cells = entry["table_row"]["cells"];
@@ -237,7 +236,7 @@ export default function BraindumpIndex() {
               return (
                 <div
                   key={entry.id}
-                  className="grid-row-gap-0 grid-rows-[repeat(5, minmax(0, auto))] mb-4 grid grid-cols-4 content-center overflow-hidden text-clip p-2 font-sim text-xs uppercase outline outline-white"
+                  className="grid-row-gap-0 grid-rows-[repeat(5, minmax(0, auto))] mb-4 grid grid-cols-4 content-center overflow-hidden text-clip bg-midnight-light p-2 font-sim text-xs uppercase outline outline-white"
                 >
                   <Fragment key={entry.id}>
                     <div className="col-span-4 flex flex-col py-2">
