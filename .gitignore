@@ -1,11 +1,17 @@
 node_modules
 
-/server/index.js
+
+/* UNIQUE + BUILD */
 /public/build
 preferences.arc
 sam.json
 sam.yaml
 .env
+
+/* GENERATED FILES */
+/server
+
+coverage/
 
 /cypress/screenshots
 /cypress/videos

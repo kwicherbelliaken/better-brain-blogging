@@ -126,3 +126,15 @@ This project uses ESLint for linting. That is configured in `.eslintrc.js`.
 ### Formatting
 
 We use [Prettier](https://prettier.io/) for auto-formatting in this project. It's recommended to install an editor plugin (like the [VSCode Prettier plugin](https://marketplace.visualstudio.com/items?itemName=esbenp.prettier-vscode)) to get auto-formatting on save. There's also a `npm run format` script you can run to format all files in the project.
+
+### Influences / References
+
+- https://dev.to/martenstijs/how-we-used-notion-as-a-cms-for-our-blog-5b63: I used this to process the JSON Notion Page Block content as it seemed a good means of interpreting the Notion response payload.
+
+- https://www.npmjs.com/package/notion-to-md: I was originally going to use this inside the $braindumpId loader and then process the returned Markdown into HTML using some interpreter. Fortunately, Notion chose against returning queried against resources as Markdown for JSON.
+
+- https://web.dev/image-component/ optimised Image Component
+
+- https://medium.com/front-end-weekly/progressive-image-loading-and-intersectionobserver-d0359b5d90cd: progressive image loading (helpful dissection of the possible approaches)
+
+- https://jmperezperez.com/blog/medium-image-progressive-loading-placeholder/: more examples of progressive image loading

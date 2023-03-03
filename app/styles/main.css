@@ -1,0 +1,54 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  @font-face {
+    font-family: "PicNic";
+    src: url("../../fonts/PicNic-Regular.otf");
+  }
+
+  @font-face {
+    font-family: "Helvetica";
+    src: url("../../fonts/Helvetica.ttf");
+  }
+
+  @font-face {
+    font-family: "NaN Holo Mono Blonde";
+    src: url("../../fonts/NaN-Holo-Mono-Blonde.ttf");
+  }
+
+  @font-face {
+    font-family: "Suisse Intl Mono";
+    src: url("../../fonts/Suisse-Intl-Mono.ttf");
+  }
+
+  h1 {
+    @apply font-sim text-2xl text-midnight-light md:text-4xl;
+  }
+
+  h2 {
+    @apply pb-8 font-nhmb text-xl md:text-3xl;
+  }
+
+  h3 {
+    @apply font-helvetica text-lg text-midnight-light md:text-2xl;
+  }
+
+  h4 {
+    @apply font-helvetica text-base text-midnight-light md:text-lg;
+  }
+
+  p {
+    @apply text-sm md:text-base;
+  }
+
+  body {
+    @apply mx-auto mx-auto leading-6;
+  }
+
+  body,
+  main {
+    @apply relative min-h-screen flex-row  bg-white;
+  }
+}

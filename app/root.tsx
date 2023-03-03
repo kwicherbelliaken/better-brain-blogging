@@ -16,11 +16,29 @@ import {
 import { getUser } from "./session.server";
 import tailwindStylesheetUrl from "./styles/tailwind.css";
 
+export function ErrorBoundary({ error }) {
+  return (
+    <html>
+      <head>
+        <title>Oh no!</title>
+        <Meta />
+        <Links />
+      </head>
+      <body>
+        <div className="flex h-full w-full flex-row justify-center align-middle">
+          {error.message}
+        </div>
+        <Scripts />
+      </body>
+    </html>
+  );
+}
+
 export const links: LinksFunction = () => {
   return [
     { rel: "stylesheet", href: tailwindStylesheetUrl },
     // NOTE: Architect deploys the public directory to /_static/
-    { rel: "icon", href: "/_static/favicon.ico" },
+    { rel: "icon", href: "/_static/dvd.ico" },
   ];
 };
 
@@ -42,11 +60,9 @@ export const loader: LoaderFunction = async ({ request }) => {
 
 function Header() {
   return (
-    <div className="relative mb-16 flex h-16 w-full flex-row justify-between bg-[color:rgba(0,0,0,1)] text-white">
-      <div>djuhurd!</div>
-      <div className="flex flex-row justify-between">
+    <div className="relative block h-16 w-full bg-[color:rgba(0,0,0,1)] text-white">
+      <div className="flex h-full flex-row items-center justify-end">
         <div className="pr-8">slackermorris</div>
-        <div>icon</div>
       </div>
     </div>
   );
@@ -59,7 +75,7 @@ export default function App() {
         <Meta />
         <Links />
       </head>
-      <body className="h-full">
+      <body>
         <Header />
         <Outlet />
         <ScrollRestoration />

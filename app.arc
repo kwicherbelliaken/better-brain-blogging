@@ -1,5 +1,8 @@
 @app
-blog-ce66
+better-brain-blogging
+
+@aws
+region ap-southeast-2
 
 @http
 /*
