@@ -1,6 +1,6 @@
 import React from "react";
 import { useEffect, useState, Fragment, useMemo } from "react";
-import { json } from "@remix-run/node";
+import { HeadersFunction, json } from "@remix-run/node";
 import { useLoaderData } from "@remix-run/react";
 import notionClient from "~/integrations/notion";
 
@@ -155,11 +155,20 @@ export const loader = async ({
     );
   }
 
-  return json({
-    braindumpMeta: response,
-    braindumpContent: blocks,
-    braindumpContentReferences: references,
-  });
+  const headers = { "Cache-Control": "max-age=3600" };
+
+  return json(
+    {
+      braindumpMeta: response,
+      braindumpContent: blocks,
+      braindumpContentReferences: references,
+    },
+    { headers }
+  );
+};
+
+export const headers: HeadersFunction = ({ loaderHeaders }) => {
+  return { "Cache-Control": loaderHeaders.get("Cache-Control")! };
 };
 
 export const links = () => {

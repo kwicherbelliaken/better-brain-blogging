@@ -1,3 +1,4 @@
+import React from "react";
 import { useEffect, useState } from "react";
 import { useLoaderData, useCatch } from "@remix-run/react";
 import { json } from "@remix-run/server-runtime";
@@ -73,7 +74,6 @@ export function CatchBoundary() {
   }
 }
 
-// TODO: write note about how remix handles styles, particularly for a component library
 export const links = () => {
   return [
     {

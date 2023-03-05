@@ -110,8 +110,10 @@ const SummaryPanelWithBostockAnimation = () => {
   );
 };
 
-export const headers: HeadersFunction = ({ loaderHeaders }) => {
-  return { "Cache-Control": loaderHeaders.get("Cache-Control")! };
+export const headers: HeadersFunction = () => {
+  return {
+    "Cache-Control": "s-maxage=3600",
+  };
 };
 
 export default function BraindumpsIndex() {
