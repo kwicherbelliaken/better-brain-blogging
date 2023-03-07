@@ -116,6 +116,39 @@ export const headers: HeadersFunction = () => {
   };
 };
 
+export const links = () => {
+  return [
+    {
+      rel: "preload",
+      href: "../_static/fonts/PicNic-Regular.woff",
+      as: "font",
+      type: "font/woff",
+      crossOrigin: "anonymous",
+    },
+    {
+      rel: "preload",
+      href: "../_static/fonts/Helvetica.woff",
+      as: "font",
+      type: "font/woff",
+      crossOrigin: "anonymous",
+    },
+    {
+      rel: "preload",
+      href: "../_static/fonts/Suisse-Intl-Mono.woff",
+      as: "font",
+      type: "font/woff",
+      crossOrigin: "anonymous",
+    },
+    {
+      rel: "preload",
+      href: "../_static/fonts/NaN-Holo-Mono-Blonde.woff",
+      as: "font",
+      type: "font/woff",
+      crossOrigin: "anonymous",
+    },
+  ];
+};
+
 export default function BraindumpsIndex() {
   const isMobile = useCheckMobileScreen();
 
