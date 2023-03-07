@@ -5,22 +5,22 @@
 @layer base {
   @font-face {
     font-family: "PicNic";
-    src: url("../../fonts/PicNic-Regular.otf");
+    src: url("../../fonts/PicNic-Regular.woff");
   }
 
   @font-face {
     font-family: "Helvetica";
-    src: url("../../fonts/Helvetica.ttf");
+    src: url("../../fonts/Helvetica.woff");
   }
 
   @font-face {
     font-family: "NaN Holo Mono Blonde";
-    src: url("../../fonts/NaN-Holo-Mono-Blonde.ttf");
+    src: url("../../fonts/NaN-Holo-Mono-Blonde.woff");
   }
 
   @font-face {
     font-family: "Suisse Intl Mono";
-    src: url("../../fonts/Suisse-Intl-Mono.ttf");
+    src: url("../../fonts/Suisse-Intl-Mono.woff");
   }
 
   h1 {
