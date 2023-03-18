@@ -9,6 +9,8 @@ import { retrieveBraindumpsFromNotionDatabase } from "./notion-crm";
 import { Link } from "@remix-run/react";
 import P from "~/components/P";
 import Title from "~/components/Title";
+import { MorphingTransition } from "~/components/pageTransition";
+
 // @ts-ignore
 // ! EXPORT PROPER TYPE DEFINITONS
 import FuzzyScrawl from "fuzzy-scrawl";
@@ -26,6 +28,7 @@ import type { NotionDatabaseAPIMapperResponse } from "./notion-crm";
 // @ts-ignore
 // ! EXPORT PROPER TYPE DEFINITONS
 import fuzzyScrawlStyles from "fuzzy-scrawl-styles";
+import Layout from "../../components/Layout";
 
 type ThrownResponses = ThrownResponse<404, string>;
 
@@ -91,56 +94,59 @@ export default function BraindumpsList() {
   if (!braindumps) return null;
 
   return (
-    <div className="h-full w-2/3">
-      <div className="p-24">
-        {Object.entries(braindumps).map(
-          (
-            [category, relatedBraindumps]: [
-              category: string,
-              relatedBraindumps: NotionDatabaseAPIMapperResponse
-            ],
-            keyOfCategories: number
-          ) => {
-            return (
-              <div key={keyOfCategories} className="w-full pb-8">
-                <Title.H3
-                  styleProps={[
-                    "py-3.5",
-                    "text-4xl",
-                    "font-extrabold",
-                    "uppercase",
-                    "tracking-tight",
-                  ]}
-                >
-                  {category}
-                </Title.H3>
+    <Layout.FullHeight classNameProp={["w-2/3"]}>
+      <MorphingTransition>
+        <div className="p-24">
+          {Object.entries(braindumps).map(
+            (
+              [category, relatedBraindumps]: [
+                category: string,
+                relatedBraindumps: NotionDatabaseAPIMapperResponse
+              ],
+              keyOfCategories: number
+            ) => {
+              return (
+                <div key={keyOfCategories} className="w-full pb-8">
+                  <Title.H3
+                    styleProps={[
+                      "py-3.5",
+                      "text-4xl",
+                      "font-extrabold",
+                      "uppercase",
+                      "tracking-tight",
+                    ]}
+                  >
+                    {category}
+                  </Title.H3>
 
-                <div className="bg-white pl-3.5">
-                  {relatedBraindumps.map(
-                    (
-                      braindump: NotionDatabaseAPIMapperResponse[0],
-                      index: number,
-                      braindumps: NotionDatabaseAPIMapperResponse
-                    ) => {
-                      const showFuzzyScrawl =
-                        index === Math.floor(Math.random() * braindumps.length);
+                  <div className="bg-white pl-3.5">
+                    {relatedBraindumps.map(
+                      (
+                        braindump: NotionDatabaseAPIMapperResponse[0],
+                        index: number,
+                        braindumps: NotionDatabaseAPIMapperResponse
+                      ) => {
+                        const showFuzzyScrawl =
+                          index ===
+                          Math.floor(Math.random() * braindumps.length);
 
-                      return (
-                        <BraindumpDetails
-                          key={index}
-                          braindump={braindump}
-                          showFuzzyScrawl={showFuzzyScrawl}
-                        />
-                      );
-                    }
-                  )}
+                        return (
+                          <BraindumpDetails
+                            key={index}
+                            braindump={braindump}
+                            showFuzzyScrawl={showFuzzyScrawl}
+                          />
+                        );
+                      }
+                    )}
+                  </div>
                 </div>
-              </div>
-            );
-          }
-        )}
-      </div>
-    </div>
+              );
+            }
+          )}
+        </div>
+      </MorphingTransition>
+    </Layout.FullHeight>
   );
 }
 
