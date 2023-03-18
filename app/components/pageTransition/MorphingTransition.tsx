@@ -6,8 +6,8 @@ import type { PropsWithChildren } from "react";
 
 const MorphingTransition = ({
   children,
-  styleProps,
-}: PropsWithChildren<{ styleProps?: Array<string> }>) => {
+  classNameProps,
+}: PropsWithChildren<{ classNameProps?: Array<string> }>) => {
   useEffect(() => {
     const domNodes = {};
 
@@ -33,6 +33,13 @@ const MorphingTransition = ({
       easing: "easeOutQuad",
       d: domNodes["path"].getAttribute("pathdata:id"),
     });
+
+    return () => {
+      /* 1. remove animejs bindings */
+      anime.remove(domNodes["introduction"]);
+      anime.remove(domNodes["shape"]);
+      anime.remove(domNodes["path"]);
+    };
   }, []);
 
   return (

@@ -193,7 +193,10 @@ export default function BraindumpIndex() {
 
   return (
     <div className="relative">
-      <FlowerBlobTransition>
+      <FlowerBlobTransition
+        key={braindumpMeta["id"]}
+        animationKey={braindumpMeta["id"]}
+      >
         <div className="bg-pink pt-24">
           <InnerLayout>
             {Header}
