@@ -1,3 +1,5 @@
+const colors = require("tailwindcss/colors");
+
 module.exports = {
   content: ["./app/**/*.{ts,tsx,jsx,js}"],
   theme: {
@@ -18,6 +20,7 @@ module.exports = {
       },
     },
     colors: {
+      black: colors.black,
       graphite: {
         lightest: "#E1DFE1",
         light: "#C7C7C7",

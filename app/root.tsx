@@ -60,7 +60,7 @@ export const loader: LoaderFunction = async ({ request }) => {
 
 function Header() {
   return (
-    <div className="relative block h-16 w-full bg-[color:rgba(0,0,0,1)] text-white">
+    <div className="relative z-50 block h-16 w-full bg-[color:rgba(0,0,0,1)] text-white">
       <div className="flex h-full flex-row items-center justify-end">
         <div className="pr-8">slackermorris</div>
       </div>

@@ -1,6 +1,6 @@
 import React from "react";
 import { useEffect, useState, Fragment, useMemo } from "react";
-import { json } from "@remix-run/node";
+import { HeadersFunction, json } from "@remix-run/node";
 import { useLoaderData } from "@remix-run/react";
 import notionClient from "~/integrations/notion";
 
@@ -10,6 +10,7 @@ import Paragraph from "~/components/Paragraph";
 import Title from "~/components/Title";
 import CodeBlock from "~/components/CodeBlock";
 import A from "~/components/A";
+import { FlowerBlobTransition } from "~/components/pageTransition";
 
 //? TYPES
 import type { PropsWithChildren } from "react";
@@ -17,115 +18,7 @@ import type { GetBlockResponse } from "@notionhq/client/build/src/api-endpoints"
 
 //? STYLES
 import styles from "highlight.js/styles/base16/zenburn.css";
-import { PillButton } from "../components/button";
-
-const getRandomisedBorderRadius = () => {
-  let borderRadius = "";
-
-  for (let j = 0; j < 8; j++) {
-    const nextBorderRadiusEntry = Math.floor(Math.random() * (80 - 20) + 20);
-
-    if (j == 3 || j == 6) {
-      borderRadius += j == 3 ? " 0% /" : " 0%";
-    } else {
-      borderRadius += ` ${nextBorderRadiusEntry}%`;
-    }
-  }
-
-  return borderRadius;
-};
-
-const InnerLayout = ({ children }: PropsWithChildren<{}>) => {
-  const [borderRadius, setBorderRadius] = useState(getRandomisedBorderRadius());
-
-  useEffect(() => {
-    /* 1. set shape transistion into effect on mount */
-    setBorderRadius(getRandomisedBorderRadius());
-
-    /* 2. retrigger shape transistion on each batched scroll */
-    let debounce = true;
-    const onScroll = () => {
-      if (debounce) {
-        debounce = false;
-        setTimeout(() => {
-          setBorderRadius(getRandomisedBorderRadius());
-          debounce = true;
-        }, 1000);
-      }
-    };
-
-    window.addEventListener("scroll", () => onScroll());
-
-    /* 3. cleanup */
-    return window.removeEventListener("scroll", () => onScroll());
-  }, []);
-
-  return (
-    <div
-      className={`transistion h-full w-full bg-white p-4 duration-1000 ease-out`}
-      style={{ borderRadius: borderRadius }}
-    >
-      {children}
-    </div>
-  );
-};
-
-const useNotionInterpretBlocks = (
-  blocks: GetBlockResponse[]
-): React.ReactNode => {
-  const braindumps = useMemo(() => {
-    return blocks?.map((block) => {
-      if ("type" in block) {
-        switch (block.type) {
-          case "paragraph":
-            return <Paragraph<GetBlockResponse> key={block.id} block={block} />;
-
-          case "heading_1":
-            return (
-              <Title.H2 key={block.id}>
-                {block.heading_1.rich_text[0]?.plain_text}
-              </Title.H2>
-            );
-
-          case "heading_2":
-            return (
-              <Title.H3 key={block.id}>
-                {block.heading_2.rich_text[0]?.plain_text}
-              </Title.H3>
-            );
-
-          // case "bulleted_list_item":
-          //   return <ListItem block={block} key={block.id} />;
-
-          case "image":
-            if ("external" in block.image) {
-              return (
-                <ImageContainer key={block.id} src={block.image.external.url} />
-              );
-            }
-            return null;
-
-          case "code":
-            return (
-              <CodeBlock
-                key={block.id}
-                content={{
-                  caption: block.code.caption[0].plain_text,
-                  code: block.code.rich_text[0].plain_text,
-                }}
-              />
-            );
-
-          default:
-            return null;
-        }
-      }
-      return null;
-    });
-  }, [blocks]);
-
-  return braindumps;
-};
+import { PillButton } from "~/components/button";
 
 export const loader = async ({
   params,
@@ -155,11 +48,20 @@ export const loader = async ({
     );
   }
 
-  return json({
-    braindumpMeta: response,
-    braindumpContent: blocks,
-    braindumpContentReferences: references,
-  });
+  const headers = { "Cache-Control": "max-age=3600" };
+
+  return json(
+    {
+      braindumpMeta: response,
+      braindumpContent: blocks,
+      braindumpContentReferences: references,
+    },
+    { headers }
+  );
+};
+
+export const headers: HeadersFunction = ({ loaderHeaders }) => {
+  return { "Cache-Control": loaderHeaders.get("Cache-Control")! };
 };
 
 export const links = () => {
@@ -290,14 +192,123 @@ export default function BraindumpIndex() {
   );
 
   return (
-    <div className="h-full w-full bg-pink pt-24">
-      <InnerLayout>
-        {Header}
-        <div className="flex flex-row justify-center">
-          {References}
-          <div className="flex w-3/4 flex-col px-4">{content}</div>
+    <div className="relative">
+      <FlowerBlobTransition>
+        <div className="bg-pink pt-24">
+          <InnerLayout>
+            {Header}
+            <div className="flex flex-row justify-center">
+              {References}
+              <div className="flex w-3/4 flex-col px-4">{content}</div>
+            </div>
+          </InnerLayout>
         </div>
-      </InnerLayout>
+      </FlowerBlobTransition>
     </div>
   );
 }
+
+const getRandomisedBorderRadius = () => {
+  let borderRadius = "";
+
+  for (let j = 0; j < 8; j++) {
+    const nextBorderRadiusEntry = Math.floor(Math.random() * (80 - 20) + 20);
+
+    if (j == 3 || j == 6) {
+      borderRadius += j == 3 ? " 0% /" : " 0%";
+    } else {
+      borderRadius += ` ${nextBorderRadiusEntry}%`;
+    }
+  }
+
+  return borderRadius;
+};
+
+const InnerLayout = ({ children }: PropsWithChildren<{}>) => {
+  const [borderRadius, setBorderRadius] = useState(getRandomisedBorderRadius());
+
+  useEffect(() => {
+    /* 1. retrigger shape transistion on each batched scroll */
+    let debounce = true;
+    const onScroll = () => {
+      if (debounce) {
+        debounce = false;
+        setTimeout(() => {
+          setBorderRadius(getRandomisedBorderRadius());
+          debounce = true;
+        }, 1000);
+      }
+    };
+
+    window.addEventListener("scroll", () => onScroll());
+
+    /* 2. cleanup */
+    return window.removeEventListener("scroll", () => onScroll());
+  }, []);
+
+  return (
+    <div
+      className={`transistion h-full w-full bg-white p-4 duration-1000 ease-out`}
+      style={{ borderRadius: borderRadius }}
+    >
+      {children}
+    </div>
+  );
+};
+
+const useNotionInterpretBlocks = (
+  blocks: GetBlockResponse[]
+): React.ReactNode => {
+  const braindumps = useMemo(() => {
+    return blocks?.map((block) => {
+      if ("type" in block) {
+        switch (block.type) {
+          case "paragraph":
+            return <Paragraph<GetBlockResponse> key={block.id} block={block} />;
+
+          case "heading_1":
+            return (
+              <Title.H2 key={block.id}>
+                {block.heading_1.rich_text[0]?.plain_text}
+              </Title.H2>
+            );
+
+          case "heading_2":
+            return (
+              <Title.H3 key={block.id}>
+                {block.heading_2.rich_text[0]?.plain_text}
+              </Title.H3>
+            );
+
+          // case "bulleted_list_item":
+          //   return <ListItem block={block} key={block.id} />;
+
+          case "image":
+            if ("external" in block.image) {
+              return (
+                <ImageContainer key={block.id} src={block.image.external.url} />
+              );
+            }
+            return null;
+
+          case "code":
+            return (
+              <CodeBlock
+                key={block.id}
+                content={{
+                  caption: block.code.caption[0].plain_text,
+                  code: block.code.rich_text[0].plain_text,
+                }}
+              />
+            );
+
+          default:
+            return null;
+        }
+      }
+      return null;
+    });
+  }, [blocks]);
+
+  return braindumps;
+};
