@@ -10,7 +10,7 @@ import Paragraph from "~/components/Paragraph";
 import Title from "~/components/Title";
 import CodeBlock from "~/components/CodeBlock";
 import A from "~/components/A";
-import { FlowerBlobTransition } from "~/components/pageTransition";
+import PageTransition from "~/components/pageTransition";
 
 //? TYPES
 import type { PropsWithChildren } from "react";
@@ -193,7 +193,7 @@ export default function BraindumpIndex() {
 
   return (
     <div className="relative">
-      <FlowerBlobTransition
+      <PageTransition.FlowerBlobTransition
         key={braindumpMeta["id"]}
         animationKey={braindumpMeta["id"]}
       >
@@ -206,7 +206,7 @@ export default function BraindumpIndex() {
             </div>
           </InnerLayout>
         </div>
-      </FlowerBlobTransition>
+      </PageTransition.FlowerBlobTransition>
     </div>
   );
 }
