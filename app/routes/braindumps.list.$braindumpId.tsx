@@ -5,12 +5,13 @@ import { useLoaderData } from "@remix-run/react";
 import notionClient from "~/integrations/notion";
 
 //? COMPONENTS
-import ImageContainer from "~/components/ImageContainer";
-import Paragraph from "~/components/Paragraph";
+import A from "~/components/A";
 import Title from "~/components/Title";
 import CodeBlock from "~/components/CodeBlock";
-import A from "~/components/A";
-import { FlowerBlobTransition } from "~/components/pageTransition";
+import Paragraph from "~/components/Paragraph";
+import { PillButton } from "~/components/button";
+import ImageContainer from "~/components/ImageContainer";
+import PageTransition from "~/components/pageTransition";
 
 //? TYPES
 import type { PropsWithChildren } from "react";
@@ -18,7 +19,6 @@ import type { GetBlockResponse } from "@notionhq/client/build/src/api-endpoints"
 
 //? STYLES
 import styles from "highlight.js/styles/base16/zenburn.css";
-import { PillButton } from "~/components/button";
 
 export const loader = async ({
   params,
@@ -193,7 +193,10 @@ export default function BraindumpIndex() {
 
   return (
     <div className="relative">
-      <FlowerBlobTransition>
+      <PageTransition.FlowerBlobTransition
+        key={braindumpMeta["id"]}
+        animationKey={braindumpMeta["id"]}
+      >
         <div className="bg-pink pt-24">
           <InnerLayout>
             {Header}
@@ -203,7 +206,7 @@ export default function BraindumpIndex() {
             </div>
           </InnerLayout>
         </div>
-      </FlowerBlobTransition>
+      </PageTransition.FlowerBlobTransition>
     </div>
   );
 }

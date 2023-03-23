@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import classNames from "classnames";
 import anime from "animejs";
 
 import type { PropsWithChildren } from "react";
@@ -53,11 +52,32 @@ const DOM_NODES = Object.freeze({
 
 const FlowerBlobTransition = ({
   children,
-  styleProps,
-}: PropsWithChildren<{ styleProps?: Array<string> }>) => {
+  animationKey,
+  classNamesProp,
+}: PropsWithChildren<{
+  animationKey: string;
+  classNamesProp?: Array<string>;
+}>) => {
   const [showAnimationContent, setShowAnimationContent] = useState(true);
 
   useEffect(() => {
+    /* 1. only play the animation if this if the first time the page has loaded */
+    if (typeof window !== "undefined") {
+      const animationHasPlayed = window.sessionStorage.getItem(
+        `flowerBlobTransition-${animationKey}`
+      );
+
+      if (animationHasPlayed === "true") {
+        setShowAnimationContent(false);
+      } else {
+        window.sessionStorage.setItem(
+          `flowerBlobTransition-${animationKey}`,
+          "true"
+        );
+      }
+    }
+
+    /* 2. instantiate the animation */
     const domNodes = {};
 
     domNodes["svg"] = document.querySelector("svg");
@@ -82,10 +102,8 @@ const FlowerBlobTransition = ({
       easing: "easeInOutQuad",
     });
 
-    // todo: have a delay and then state update to remove the stuff from the DOM
     setTimeout(() => {
       // todo: determine a more accurate animation delay time (should be a composite)
-      // todo: think about running the state update after removing the bindings
 
       /* 1. remove animejs bindings */
       anime.remove(domNodes["path"]);
@@ -94,8 +112,6 @@ const FlowerBlobTransition = ({
       /* 2. through a conditional render, don't show the animation content */
       setShowAnimationContent(false);
     }, 5000);
-
-    // todo: cleanup function to remove the binding to animejs
   }, []);
 
   return (

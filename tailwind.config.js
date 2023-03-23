@@ -21,6 +21,8 @@ module.exports = {
     },
     colors: {
       black: colors.black,
+      rose: colors.rose,
+      teal: colors.teal,
       graphite: {
         lightest: "#E1DFE1",
         light: "#C7C7C7",
