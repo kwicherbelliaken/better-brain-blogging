@@ -26,6 +26,7 @@ import type { NotionDatabaseAPIMapperResponse } from "./notion-crm";
 // @ts-ignore
 // ! EXPORT PROPER TYPE DEFINITONS
 import fuzzyScrawlStyles from "fuzzy-scrawl-styles";
+import Layout from "../../components/Layout";
 
 type ThrownResponses = ThrownResponse<404, string>;
 

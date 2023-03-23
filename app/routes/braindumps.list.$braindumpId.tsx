@@ -1,15 +1,16 @@
 import React from "react";
 import { useEffect, useState, Fragment, useMemo } from "react";
-import { HeadersFunction, json } from "@remix-run/node";
+import { HeadersFunction, HeadersFunction, json } from "@remix-run/node";
 import { useLoaderData } from "@remix-run/react";
 import notionClient from "~/integrations/notion";
 
 //? COMPONENTS
-import ImageContainer from "~/components/ImageContainer";
-import Paragraph from "~/components/Paragraph";
+import A from "~/components/A";
 import Title from "~/components/Title";
 import CodeBlock from "~/components/CodeBlock";
-import A from "~/components/A";
+import Paragraph from "~/components/Paragraph";
+import { PillButton } from "~/components/button";
+import ImageContainer from "~/components/ImageContainer";
 import PageTransition from "~/components/pageTransition";
 
 //? TYPES
@@ -18,7 +19,7 @@ import type { GetBlockResponse } from "@notionhq/client/build/src/api-endpoints"
 
 //? STYLES
 import styles from "highlight.js/styles/base16/zenburn.css";
-import { PillButton } from "~/components/button";
+
 
 export const loader = async ({
   params,
