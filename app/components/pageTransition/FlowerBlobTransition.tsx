@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import classNames from "classnames";
 import anime from "animejs";
 
 import type { PropsWithChildren } from "react";
