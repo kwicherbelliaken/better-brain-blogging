@@ -15,7 +15,7 @@
     "baseUrl": ".",
     "paths": {
       "~/*": ["./app/*"],
-      "fuzzy-scrawl-styles": ["./node_modules/fuzzy-scrawl/build/browser.css"],
+      "fuzzy-scrawl-styles": ["./node_modules/fuzzy-scrawl/build/index.css"],
       "animejs": ["animejs/lib/anime.es.js"]
     },
     "skipLibCheck": true,

@@ -11,9 +11,6 @@ import Title from "~/components/Title";
 import { Link } from "@remix-run/react";
 import Layout from "~/components/Layout";
 import PageTransition from "~/components/pageTransition";
-
-// @ts-ignore
-// ! EXPORT PROPER TYPE DEFINITONS
 import FuzzyScrawl from "fuzzy-scrawl";
 
 //? TYPES
@@ -185,14 +182,14 @@ function BraindumpDetails({
           braindump["Markdown"] ? (
             <FuzzyScrawl.ScrawlComponent
               content={<LinkToBraindump />}
-              svgFxFilterIndex={3}
-              filterType="circle"
+              svgFxFilterIndex={Math.floor(Math.random() * 7)}
+              filterType={Math.floor(Math.random() * 2) ? "circle" : "line"}
             />
           ) : (
             <FuzzyScrawl.ScrawlComponent
               content={<BraindumpName />}
-              svgFxFilterIndex={0}
-              filterType="line"
+              svgFxFilterIndex={Math.floor(Math.random() * 7)}
+              filterType={Math.floor(Math.random() * 2) ? "circle" : "line"}
             />
           )
         ) : braindump["Markdown"] ? (
