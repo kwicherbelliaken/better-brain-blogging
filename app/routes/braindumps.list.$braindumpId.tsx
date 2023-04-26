@@ -18,7 +18,7 @@ import type { PropsWithChildren } from "react";
 import type { GetBlockResponse } from "@notionhq/client/build/src/api-endpoints";
 
 //? STYLES
-import styles from "highlight.js/styles/base16/zenburn.css";
+import styles from "highlight.js/styles/base16/equilibrium-light.css";
 
 export const loader = async ({
   params,
@@ -102,11 +102,13 @@ export default function BraindumpIndex() {
   const { braindumpMeta, braindumpContent, braindumpContentReferences } =
     useLoaderData();
 
-  const content = useNotionInterpretBlocks(braindumpContent.results);
+  const Content = () => (
+    <>{useNotionInterpretBlocks(braindumpContent.results)}</>
+  );
 
   if (!braindumpContent || !braindumpMeta) return null;
 
-  const Header = (
+  const Header = () => (
     <div className="mb-12 flex flex-col">
       <Title.H1 styleProps={["text-8xl"]}>
         {braindumpMeta["properties"]["title"]["title"][0]["plain_text"]}
@@ -115,6 +117,7 @@ export default function BraindumpIndex() {
         <PillButton>{braindumpMeta["created_time"]}</PillButton>
         <PillButton>Uncategorised</PillButton>
       </div>
+      <div>POSTED_ON_PLACEHOLDER</div>
     </div>
   );
 
@@ -191,6 +194,10 @@ export default function BraindumpIndex() {
     </div>
   );
 
+  const ConstrainedLayout = ({ children }: PropsWithChildren) => (
+    <div className="w-[700px]">{children}</div>
+  );
+
   return (
     <div className="relative">
       <PageTransition.FlowerBlobTransition
@@ -199,11 +206,15 @@ export default function BraindumpIndex() {
       >
         <div className="bg-pink pt-24">
           <InnerLayout>
-            {Header}
-            <div className="flex flex-row justify-center">
-              {References}
-              <div className="flex w-3/4 flex-col px-4">{content}</div>
-            </div>
+            <ConstrainedLayout>
+              <Header />
+              <div>
+                {/* {References} */}
+                <div className="flex flex-col px-4">
+                  <Content />
+                </div>
+              </div>
+            </ConstrainedLayout>
           </InnerLayout>
         </div>
       </PageTransition.FlowerBlobTransition>
@@ -251,7 +262,7 @@ const InnerLayout = ({ children }: PropsWithChildren<{}>) => {
 
   return (
     <div
-      className={`transistion h-full w-full bg-white p-4 duration-1000 ease-out`}
+      className={`transistion flex h-full w-full flex-col items-center bg-white p-4 duration-1000 ease-out`}
       style={{ borderRadius: borderRadius }}
     >
       {children}
@@ -271,15 +282,22 @@ const useNotionInterpretBlocks = (
 
           case "heading_1":
             return (
-              <Title.H2 key={block.id}>
+              <Title.H1 key={block.id}>
                 {block.heading_1.rich_text[0]?.plain_text}
-              </Title.H2>
+              </Title.H1>
             );
 
           case "heading_2":
             return (
-              <Title.H3 key={block.id}>
+              <Title.H2 key={block.id}>
                 {block.heading_2.rich_text[0]?.plain_text}
+              </Title.H2>
+            );
+
+          case "heading_3":
+            return (
+              <Title.H3 key={block.id}>
+                {block.heading_3.rich_text[0]?.plain_text}
               </Title.H3>
             );
 
@@ -295,6 +313,7 @@ const useNotionInterpretBlocks = (
             return null;
 
           case "code":
+            // todo: throw an error if a code block is missing a caption
             return (
               <CodeBlock
                 key={block.id}
