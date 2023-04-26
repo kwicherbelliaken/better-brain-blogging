@@ -24,19 +24,19 @@
   }
 
   h1 {
-    @apply font-sim text-2xl text-midnight-light md:text-4xl;
+    @apply pb-6 font-sim text-2xl font-bold text-midnight-light md:text-4xl;
   }
 
   h2 {
-    @apply pb-8 font-nhmb text-xl md:text-3xl;
+    @apply pb-6 font-nhmb text-xl font-bold md:text-3xl;
   }
 
   h3 {
-    @apply font-helvetica text-lg text-midnight-light md:text-2xl;
+    @apply pb-6 font-helvetica text-lg font-bold text-midnight-light md:text-2xl;
   }
 
   h4 {
-    @apply font-helvetica text-base text-midnight-light md:text-lg;
+    @apply pb-6 font-helvetica text-base font-bold text-midnight-light md:text-lg;
   }
 
   p {
@@ -44,7 +44,7 @@
   }
 
   body {
-    @apply mx-auto mx-auto leading-6;
+    @apply mx-auto mx-auto break-words;
   }
 
   body,

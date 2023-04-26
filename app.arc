@@ -3,6 +3,8 @@ better-brain-blogging
 
 @aws
 region ap-southeast-2
+timeout 60              
+memory 256
 
 @http
 /*

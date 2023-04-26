@@ -10,6 +10,9 @@ module.exports = {
         nhmb: ["NaN Holo Mono Blonde"],
         sim: ["Suisse Intl Mono"],
       },
+      fontSize: {
+        base: ['1rem', '1.65'],
+      },
       gridTemplateRows: {
         // TODO: do not extend tailwind theme, add this as custom class inline
         // INFO: simple 9 row grid
