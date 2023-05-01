@@ -11,7 +11,7 @@ module.exports = {
         sim: ["Suisse Intl Mono"],
       },
       fontSize: {
-        base: ['1rem', '1.65'],
+        base: ["1rem", "1.65"],
       },
       gridTemplateRows: {
         // TODO: do not extend tailwind theme, add this as custom class inline
@@ -26,16 +26,20 @@ module.exports = {
       black: colors.black,
       rose: colors.rose,
       teal: colors.teal,
+      stone: colors.stone,
       graphite: {
-        lightest: "#E1DFE1",
-        light: "#C7C7C7",
+        huy: "#6C7871",
         dark: "#54545C",
-        "light-green": "#8C9490",
+        light: "#C7C7C7",
+        merlin: "#44403C",
+        lightest: "#E1DFE1",
         "dark-green": "#545c54",
+        "light-green": "#8C9490",
       },
       midnight: {
-        light: "#191919",
         dark: "#202226",
+        light: "#191919",
+        "black-pearl": "#17191C",
       },
       pink: "#FADAD8",
       white: "#FFF",
