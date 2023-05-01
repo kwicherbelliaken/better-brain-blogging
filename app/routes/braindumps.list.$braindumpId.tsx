@@ -108,16 +108,26 @@ export default function BraindumpIndex() {
 
   if (!braindumpContent || !braindumpMeta) return null;
 
+  const PillContainer = ({ children }: PropsWithChildren) => (
+    <div className="relative block w-fit cursor-default rounded-full py-1 px-2 text-sm text-graphite-huy outline outline-graphite-huy">
+      {children}
+    </div>
+  );
+
+  // todo: sometimes multiple categories apply to a particular braindump
   const Header = () => (
     <div className="mb-12 flex flex-col">
-      <Title.H1 styleProps={["text-8xl"]}>
+      <Title.H1 styleProps={["text-8xl text-graphite-merlin pb-4"]}>
         {braindumpMeta["properties"]["title"]["title"][0]["plain_text"]}
       </Title.H1>
-      <div className="space-between flex w-full flex-row justify-around pt-6">
-        <PillButton>{braindumpMeta["created_time"]}</PillButton>
-        <PillButton>Uncategorised</PillButton>
+
+      <div className="flex flex-col gap-4 px-4">
+        <div className="cursor-default text-sm text-graphite-huy">
+          Posted on{" "}
+          {new Date(braindumpMeta["created_time"]).toLocaleDateString()}
+        </div>
+        <PillContainer>Uncategorised</PillContainer>
       </div>
-      <div>POSTED_ON_PLACEHOLDER</div>
     </div>
   );
 
@@ -262,7 +272,7 @@ const InnerLayout = ({ children }: PropsWithChildren<{}>) => {
 
   return (
     <div
-      className={`transistion flex h-full w-full flex-col items-center bg-white p-4 duration-1000 ease-out`}
+      className={`transistion flex h-full w-full flex-col items-center bg-stone-50 p-4 duration-1000 ease-out`}
       style={{ borderRadius: borderRadius }}
     >
       {children}
@@ -282,21 +292,21 @@ const useNotionInterpretBlocks = (
 
           case "heading_1":
             return (
-              <Title.H1 key={block.id}>
+              <Title.H1 key={block.id} styleProps={["text-graphite-merlin"]}>
                 {block.heading_1.rich_text[0]?.plain_text}
               </Title.H1>
             );
 
           case "heading_2":
             return (
-              <Title.H2 key={block.id}>
+              <Title.H2 key={block.id} styleProps={["text-graphite-merlin"]}>
                 {block.heading_2.rich_text[0]?.plain_text}
               </Title.H2>
             );
 
           case "heading_3":
             return (
-              <Title.H3 key={block.id}>
+              <Title.H3 key={block.id} styleProps={["text-graphite-merlin"]}>
                 {block.heading_3.rich_text[0]?.plain_text}
               </Title.H3>
             );

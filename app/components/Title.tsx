@@ -9,7 +9,12 @@ const H1 = ({
   <h1 className={classNames(styleProps?.join(" "))}>{children}</h1>
 );
 
-const H2 = ({ children }: PropsWithChildren<{}>) => <h2>{children}</h2>;
+const H2 = ({
+  children,
+  styleProps,
+}: PropsWithChildren<{ styleProps?: Array<string> }>) => (
+  <h2 className={classNames(styleProps?.join(" "))}>{children}</h2>
+);
 
 const H3 = ({
   children,
