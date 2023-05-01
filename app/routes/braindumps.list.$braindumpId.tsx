@@ -1,6 +1,6 @@
 import React from "react";
 import { useEffect, useState, Fragment, useMemo } from "react";
-import { HeadersFunction, json } from "@remix-run/node";
+import { type HeadersFunction, json } from "@remix-run/node";
 import { useLoaderData } from "@remix-run/react";
 import notionClient from "~/integrations/notion";
 
@@ -9,7 +9,6 @@ import A from "~/components/A";
 import Title from "~/components/Title";
 import CodeBlock from "~/components/CodeBlock";
 import Paragraph from "~/components/Paragraph";
-import { PillButton } from "~/components/button";
 import ImageContainer from "~/components/ImageContainer";
 import PageTransition from "~/components/pageTransition";
 
