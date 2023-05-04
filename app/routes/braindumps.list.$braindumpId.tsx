@@ -5,12 +5,14 @@ import { useLoaderData } from "@remix-run/react";
 import notionClient from "~/integrations/notion";
 
 //? COMPONENTS
-import A from "~/components/A";
-import Title from "~/components/Title";
-import CodeBlock from "~/components/CodeBlock";
-import Paragraph from "~/components/Paragraph";
-import ImageContainer from "~/components/ImageContainer";
-import PageTransition from "~/components/pageTransition";
+import {
+  A,
+  Title,
+  CodeBlock,
+  Paragraph,
+  ImageContainer,
+  PageTransition,
+} from "../components";
 
 //? TYPES
 import type { PropsWithChildren } from "react";
