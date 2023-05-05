@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import { useLoaderData, useCatch } from "@remix-run/react";
 import { json } from "@remix-run/server-runtime";
 import notionClient from "~/integrations/notion";
@@ -24,6 +24,7 @@ import type { NotionDatabaseAPIMapperResponse } from "./notion-crm";
 // @ts-ignore
 // ! EXPORT PROPER TYPE DEFINITONS
 import fuzzyScrawlStyles from "fuzzy-scrawl-styles";
+import classNames from "classnames";
 
 type ThrownResponses = ThrownResponse<404, string>;
 
@@ -90,139 +91,172 @@ export default function BraindumpsList() {
     keyof typeof braindumps | "ALL"
   >("ALL");
 
-  if (!braindumps) return null;
+  const CategoriesMemo = useMemo(() => {
+    // todo: maybe better to return a loading spinner or something
+    if (!braindumps) return null;
 
-  // todo: think about whether this should re-render on every category change
-  const Categories = () => (
-    <div className="flex flex-col gap-2">
-      <button
-        className="relative block w-fit rounded-full py-1 px-2 text-sm text-graphite-huy outline outline-graphite-huy"
-        onClick={() => setFilteredCategory("ALL")}
-      >
-        ALL
-      </button>
-      {Object.entries(braindumps).map(
-        (
-          [category, _]: [
-            category: keyof typeof braindumps,
-            relatedBraindumps: NotionDatabaseAPIMapperResponse
-          ],
-          keyOfCategories: number
-        ) => {
-          return (
-            <button
-              key={keyOfCategories}
-              className="relative block w-fit rounded-full py-1 px-2 text-sm text-graphite-huy outline outline-graphite-huy"
-              // @ts-ignore: we know this is a valid category
-              onClick={() => setFilteredCategory(category)}
-            >
-              {category}
-            </button>
+    const Categories = () => {
+      const availableColours = [
+        "categories-violet",
+        "categories-pink",
+        "categories-yellow",
+        "categories-orange",
+      ];
+
+      const colourMap = Object.keys(braindumps).reduce((map, category) => {
+        if (availableColours.length === 0) {
+          map[category] = "categories-default";
+        } else {
+          const colourIndex = Math.floor(
+            Math.random() * availableColours.length
           );
+
+          const colour = availableColours[colourIndex];
+
+          map[category] = `text-${colour} outline-${colour}`;
+
+          availableColours.splice(colourIndex, 1);
         }
-      )}
-    </div>
-  );
+
+        return map;
+      }, {});
+
+      return (
+        <div className="flex flex-col gap-2">
+          <button
+            className="relative block w-fit rounded-full py-1 px-2 text-sm font-medium text-graphite-huy outline outline outline-graphite-huy hover:font-semibold"
+            onClick={() => setFilteredCategory("ALL")}
+          >
+            ALL
+          </button>
+          {Object.entries(braindumps).map(
+            (
+              [category, _]: [
+                category: keyof typeof braindumps,
+                relatedBraindumps: NotionDatabaseAPIMapperResponse
+              ],
+              keyOfCategories: number
+            ) => {
+              return (
+                <button
+                  key={keyOfCategories}
+                  className={`${colourMap[category]} relative block w-fit rounded-full py-1 px-2 text-sm font-medium outline hover:font-semibold`}
+                  // @ts-ignore: we know this is a valid category
+                  onClick={() => setFilteredCategory(category)}
+                >
+                  {category}
+                </button>
+              );
+            }
+          )}
+        </div>
+      );
+    };
+
+    return <Categories />;
+  }, [braindumps]);
+
+  if (!braindumps) return null;
 
   return (
     <PageTransition.GradientMapTransition
       classNameProps={["h-[calc(100vh-4rem)]", "w-2/3", "overflow-hidden"]}
     >
       <Layout.FullHeight classNameProp={["w-2/3"]}>
-        <PageTransition.MorphingTransition>
-          <div className="p-24">
-            <Categories />
-            {Object.entries(braindumps).map(
-              (
-                [category, relatedBraindumps]: [
-                  category: string,
-                  relatedBraindumps: NotionDatabaseAPIMapperResponse
-                ],
-                keyOfCategories: number
-              ) => {
-                if (filteredCategory === "ALL") {
-                  return (
-                    <div key={keyOfCategories} className="w-full pb-8">
-                      <Title.H3
-                        styleProps={[
-                          "py-3.5",
-                          "text-4xl",
-                          "font-extrabold",
-                          "uppercase",
-                          "tracking-tight",
-                        ]}
-                      >
-                        {category}
-                      </Title.H3>
+        {/* <PageTransition.MorphingTransition> */}
+        <div className="p-24">
+          {CategoriesMemo}
+          {Object.entries(braindumps).map(
+            (
+              [category, relatedBraindumps]: [
+                category: string,
+                relatedBraindumps: NotionDatabaseAPIMapperResponse
+              ],
+              keyOfCategories: number
+            ) => {
+              if (filteredCategory === "ALL") {
+                return (
+                  <div key={keyOfCategories} className="w-full pb-8">
+                    <Title.H3
+                      styleProps={[
+                        "py-3.5",
+                        "text-4xl",
+                        "font-extrabold",
+                        "uppercase",
+                        "tracking-tight",
+                      ]}
+                    >
+                      {category}
+                    </Title.H3>
 
-                      <div className="bg-white pl-3.5">
-                        {relatedBraindumps.map(
-                          (
-                            braindump: NotionDatabaseAPIMapperResponse[0],
-                            index: number,
-                            braindumps: NotionDatabaseAPIMapperResponse
-                          ) => {
-                            const showFuzzyScrawl =
-                              index ===
-                              Math.floor(Math.random() * braindumps.length);
+                    <div className="bg-white pl-3.5">
+                      {relatedBraindumps.map(
+                        (
+                          braindump: NotionDatabaseAPIMapperResponse[0],
+                          index: number,
+                          braindumps: NotionDatabaseAPIMapperResponse
+                        ) => {
+                          const showFuzzyScrawl =
+                            index ===
+                            Math.floor(Math.random() * braindumps.length);
 
-                            return (
-                              <BraindumpDetails
-                                key={index}
-                                braindump={braindump}
-                                showFuzzyScrawl={showFuzzyScrawl}
-                              />
-                            );
-                          }
-                        )}
-                      </div>
+                          return (
+                            <BraindumpDetails
+                              key={index}
+                              braindump={braindump}
+                              showFuzzyScrawl={showFuzzyScrawl}
+                            />
+                          );
+                        }
+                      )}
                     </div>
-                  );
-                } else if (filteredCategory === category) {
-                  return (
-                    <div key={keyOfCategories} className="w-full pb-8">
-                      <Title.H3
-                        styleProps={[
-                          "py-3.5",
-                          "text-4xl",
-                          "font-extrabold",
-                          "uppercase",
-                          "tracking-tight",
-                        ]}
-                      >
-                        {category}
-                      </Title.H3>
+                  </div>
+                );
+              } else if (filteredCategory === category) {
+                return (
+                  <div key={keyOfCategories} className="w-full pb-8">
+                    <Title.H3
+                      styleProps={[
+                        "py-3.5",
+                        "text-4xl",
+                        "font-extrabold",
+                        "uppercase",
+                        "tracking-tight",
+                      ]}
+                    >
+                      {category}
+                    </Title.H3>
 
-                      <div className="bg-white pl-3.5">
-                        {relatedBraindumps.map(
-                          (
-                            braindump: NotionDatabaseAPIMapperResponse[0],
-                            index: number,
-                            braindumps: NotionDatabaseAPIMapperResponse
-                          ) => {
-                            const showFuzzyScrawl =
-                              index ===
-                              Math.floor(Math.random() * braindumps.length);
+                    <div className="bg-white pl-3.5">
+                      {relatedBraindumps.map(
+                        (
+                          braindump: NotionDatabaseAPIMapperResponse[0],
+                          index: number,
+                          braindumps: NotionDatabaseAPIMapperResponse
+                        ) => {
+                          const showFuzzyScrawl =
+                            index ===
+                            Math.floor(Math.random() * braindumps.length);
 
-                            return (
-                              <BraindumpDetails
-                                key={index}
-                                braindump={braindump}
-                                showFuzzyScrawl={showFuzzyScrawl}
-                              />
-                            );
-                          }
-                        )}
-                      </div>
+                          return (
+                            <BraindumpDetails
+                              key={index}
+                              braindump={braindump}
+                              showFuzzyScrawl={showFuzzyScrawl}
+                            />
+                          );
+                        }
+                      )}
                     </div>
-                  );
-                }
-
-                return null;
+                  </div>
+                );
               }
-            )}
-          </div>
-        </PageTransition.MorphingTransition>
+
+              return null;
+            }
+          )}
+        </div>
+        {/* </PageTransition.MorphingTransition> */}
       </Layout.FullHeight>
     </PageTransition.GradientMapTransition>
   );

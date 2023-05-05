@@ -27,6 +27,13 @@ module.exports = {
       rose: colors.rose,
       teal: colors.teal,
       stone: colors.stone,
+      categories: {
+        pink: "#E1679C",
+        violet: "#A7ABF5",
+        yellow: "#E9AA40",
+        orange: "#D4613C",
+        default: "#fff799",
+      },
       graphite: {
         huy: "#6C7871",
         dark: "#54545C",
