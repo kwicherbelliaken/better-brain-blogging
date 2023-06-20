@@ -21,6 +21,10 @@ module.exports = {
       backgroundImage: {
         "miguel-cruz-illustration": "url(../../miguel-cruz-illustration.png)",
       },
+      screens: {
+        "3xl": "1920px",
+        "4xl": "2400px",
+      },
     },
     colors: {
       black: colors.black,
@@ -28,11 +32,13 @@ module.exports = {
       teal: colors.teal,
       stone: colors.stone,
       categories: {
-        pink: "#E1679C",
-        violet: "#A7ABF5",
+        pink: "#E068A4",
+        white: "#F7F1EC",
+        green: "#1E4032",
+        violet: "#A2A8F1",
         yellow: "#E9AA40",
         orange: "#D4613C",
-        default: "#fff799",
+        default: "#FFF799",
       },
       graphite: {
         huy: "#6C7871",
