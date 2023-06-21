@@ -23,7 +23,7 @@ const Introduction = () => {
         <div className="flex justify-center">
           <Link to="list">
             <AnimatedButton styleProps={["px-16", "py-8"]}>
-              <Title.H1>braindumps</Title.H1>
+              <Title.H1 styleProps={["pb-0"]}>braindumps</Title.H1>
             </AnimatedButton>
           </Link>
         </div>

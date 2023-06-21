@@ -49,6 +49,6 @@
 
   body,
   main {
-    @apply relative min-h-screen flex-row  bg-white;
+    @apply relative min-h-screen flex-row  bg-stone-50;
   }
 }
