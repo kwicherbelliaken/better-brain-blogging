@@ -1,6 +1,10 @@
 import React from "react";
 import { useEffect, useState, Fragment, useMemo } from "react";
-import { type HeadersFunction, json } from "@remix-run/node";
+import {
+  json,
+  type HeadersFunction,
+  type LoaderFunction,
+} from "@remix-run/node";
 import { useLoaderData } from "@remix-run/react";
 import notionClient from "~/integrations/notion";
 
@@ -17,27 +21,30 @@ import {
 //? TYPES
 import type { PropsWithChildren } from "react";
 import type { GetBlockResponse } from "@notionhq/client/build/src/api-endpoints";
+import type { BlockList, Page, Block } from "notion-api-types";
 
 //? STYLES
 import styles from "highlight.js/styles/base16/equilibrium-light.css";
 
-export const loader = async ({
-  params,
-}: {
-  params: { braindumpId: string };
-}) => {
+type LoaderData = {
+  braindumpMeta: Page;
+  braindumpContent: BlockList;
+  braindumpContentReferences: any;
+};
+
+export const loader: LoaderFunction = async ({ params }) => {
   /* 1. retrieve the Notion Page equivalent of this Braindump */
-  const response = await notionClient.pages.retrieve({
+  const response: Page = await notionClient.pages.retrieve({
     page_id: params.braindumpId,
   });
 
   /* 2. retrieve the blocks of content for this Notion Page Braindump */
-  const blocks = await notionClient.blocks.children.list({
+  const blocks: BlockList = await notionClient.blocks.children.list({
     block_id: params.braindumpId,
   });
 
   /* 3. retrieve, in particular, the reference(s) section (topmost block) */
-  const blockReferences = blocks.results[0];
+  const blockReferences: Block = blocks.results[0];
   const references = await notionClient.blocks.children.list({
     block_id: blockReferences.id,
   });
@@ -75,33 +82,8 @@ export const links = () => {
 };
 
 export default function BraindumpIndex() {
-  // [TODO]:
-  // [ ]: I need to extract information about the page to display
-  // [ ]: add highlighter effect to some sections
-  // [ ]: determine the colours that I want to use
-  // [ ]: how could I use this peeling sticky? https://codepen.io/patrickkunka/details/DeZQXw
-  // [ ]: design a layout component (or does Tailwind offer one)?
-
-  // [TYPEFACE]:
-  // https://fontsinuse.com/uses/47122/paul-and-the-microcosm-wenzel-rehbach
-  // https://fontsinuse.com/uses/46970/frow
-  // https://fontsinuse.com/uses/43980/ekin-fil-aquarius-pisces-single-cover
-  // https://fontsinuse.com/uses/45808/futurissimo-l-utopie-du-design-italien
-
-  // [IRREGULAR CSS SHAPES]:
-  // https://stackoverflow.com/questions/23711059/trapezium-shape-with-rounded-corners-and-pure-css
-  // http://jsfiddle.net/webtiki/umV38/
-  // https://www.w3.org/TR/2010/WD-css3-background-20100612/Overview.src.html
-  //
-
-  // [ADVANCED CSS]:
-  // https://developpaper.com/css-advanced-use-css-gradient-to-make-gorgeous-gradient-texture-background-effect/
-  // peelable sticker (with animation): https://codepen.io/patrickkunka/details/DeZQXw
-  // http://www.coding-dude.com/wp/css/highlight-text-css/
-  // https://alvarotrigo.com/blog/css-highlight-text/
-
   const { braindumpMeta, braindumpContent, braindumpContentReferences } =
-    useLoaderData();
+    useLoaderData<LoaderData>();
 
   const Content = () => (
     <>{useNotionInterpretBlocks(braindumpContent.results)}</>
@@ -115,7 +97,6 @@ export default function BraindumpIndex() {
     </div>
   );
 
-  // todo: sometimes multiple categories apply to a particular braindump
   const Header = () => (
     <div className="mb-12 flex flex-col">
       <Title.H1 styleProps={["text-8xl text-graphite-merlin pb-4"]}>
