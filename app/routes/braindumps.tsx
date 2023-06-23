@@ -10,6 +10,7 @@ import { useCheckMobileScreen } from "../hooks";
 //? components
 import Title from "~/components/Title";
 import BostockMetaballAnimation from "~/components/BostockMetaballAnimation";
+import Layout from "../components/Layout";
 
 const commonGridStyles =
   "font-helvetica flex justify-center outline outline-1 outline-midnight-dark items-center";
@@ -95,18 +96,46 @@ Section.Bottom = () => (
   </>
 );
 
+const MobileFallback = () => (
+  <>
+    <div
+      className={`h-[calc(100vh-4rem)] w-full bg-miguel-cruz-illustration bg-cover bg-center bg-no-repeat`}
+    />
+
+    <div className="absolute h-full w-full bg-white/25 backdrop-blur-sm hover:backdrop-blur-lg" />
+
+    <div className="absolute p-10">
+      <div className="pb-10">
+        <Title.H2 styleProps={["font-semibold"]}>Oh! Bugger!</Title.H2>
+      </div>
+      <Title.H4>
+        I ceebz making this mobile friendly atm. Y'all gonna need a lappy toppy
+        or bigger phone to see this web page
+      </Title.H4>
+    </div>
+  </>
+);
+
 const SummaryPanelWithBostockAnimation = () => {
   //! NB: h-[calc(100vh-4rem)] needed to explicitly set the height otherwise we get scrollbars
   //! https://github.com/slackermorris/better-brain-blogging/issues/10#issuecomment-1437429507
   return (
-    <div className="relative flex h-[calc(100vh-4rem)] flex-auto flex-col items-center justify-center overflow-hidden">
+    <Layout.FullHeight
+      classNameProp={[
+        "flex-auto",
+        "flex-col",
+        "items-center",
+        "justify-center",
+        "overflow-hidden",
+      ]}
+    >
       <BostockMetaballAnimation />
       <div className="z-10 m-10 grid grid-cols-10 grid-rows-9 bg-white p-4 outline outline-1 outline-midnight-dark">
         <Section.Top />
         <Section.Middle />
         <Section.Bottom />
       </div>
-    </div>
+    </Layout.FullHeight>
   );
 };
 
@@ -171,23 +200,7 @@ export default function BraindumpsIndex() {
           <Outlet />
         </>
       ) : (
-        <>
-          <div
-            className={`h-[calc(100vh-4rem)] w-full bg-miguel-cruz-illustration bg-cover bg-center bg-no-repeat`}
-          />
-
-          <div className="absolute h-full w-full bg-white/25 backdrop-blur-sm hover:backdrop-blur-lg" />
-
-          <div className="absolute p-10">
-            <div className="pb-10">
-              <Title.H2 styleProps={["font-semibold"]}>Oh! Bugger!</Title.H2>
-            </div>
-            <Title.H4>
-              I ceebz making this mobile friendly atm. Y'all gonna need a lappy
-              toppy or bigger phone to see this web page
-            </Title.H4>
-          </div>
-        </>
+        <MobileFallback />
       )}
     </div>
   );

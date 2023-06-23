@@ -20,7 +20,7 @@ const Paragraph = <BlockType extends object>({
         const isItalic = text.annotations.italic;
 
         const richProps = {
-          className: `font-nhmb text-xl text-midnight-light inline selection:bg-yellow-meringue  
+          className: `font-sim text-lg text-black-pearl inline selection:bg-yellow-meringue  
           ${isBold ? "font-bold" : ""} 
           ${isItalic ? "italic" : ""} 
           ${isUnderlined ? "underline" : ""}`,

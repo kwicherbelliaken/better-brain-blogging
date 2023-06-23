@@ -10,6 +10,9 @@ module.exports = {
         nhmb: ["NaN Holo Mono Blonde"],
         sim: ["Suisse Intl Mono"],
       },
+      fontSize: {
+        base: ["1rem", "1.65"],
+      },
       gridTemplateRows: {
         // TODO: do not extend tailwind theme, add this as custom class inline
         // INFO: simple 9 row grid
@@ -18,21 +21,38 @@ module.exports = {
       backgroundImage: {
         "miguel-cruz-illustration": "url(../../miguel-cruz-illustration.png)",
       },
+      screens: {
+        "3xl": "1920px",
+        "4xl": "2400px",
+      },
     },
     colors: {
       black: colors.black,
       rose: colors.rose,
       teal: colors.teal,
+      stone: colors.stone,
+      categories: {
+        pink: "#E068A4",
+        white: "#F7F1EC",
+        green: "#1E4032",
+        violet: "#A2A8F1",
+        yellow: "#E9AA40",
+        orange: "#D4613C",
+        default: "#FFF799",
+      },
       graphite: {
-        lightest: "#E1DFE1",
-        light: "#C7C7C7",
+        huy: "#6C7871",
         dark: "#54545C",
-        "light-green": "#8C9490",
+        light: "#C7C7C7",
+        merlin: "#44403C",
+        lightest: "#E1DFE1",
         "dark-green": "#545c54",
+        "light-green": "#8C9490",
       },
       midnight: {
-        light: "#191919",
         dark: "#202226",
+        light: "#191919",
+        "black-pearl": "#17191C",
       },
       pink: "#FADAD8",
       white: "#FFF",

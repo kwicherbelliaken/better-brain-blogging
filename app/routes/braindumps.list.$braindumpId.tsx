@@ -1,42 +1,51 @@
 import React from "react";
 import { useEffect, useState, Fragment, useMemo } from "react";
-import { HeadersFunction, json } from "@remix-run/node";
+import {
+  json,
+  type HeadersFunction,
+  type LoaderFunction,
+} from "@remix-run/node";
 import { useLoaderData } from "@remix-run/react";
 import notionClient from "~/integrations/notion";
 
 //? COMPONENTS
-import A from "~/components/A";
-import Title from "~/components/Title";
-import CodeBlock from "~/components/CodeBlock";
-import Paragraph from "~/components/Paragraph";
-import { PillButton } from "~/components/button";
-import ImageContainer from "~/components/ImageContainer";
-import PageTransition from "~/components/pageTransition";
+import {
+  A,
+  Title,
+  CodeBlock,
+  Paragraph,
+  ImageContainer,
+  PageTransition,
+} from "../components";
 
 //? TYPES
 import type { PropsWithChildren } from "react";
 import type { GetBlockResponse } from "@notionhq/client/build/src/api-endpoints";
+import type { BlockList, Page, Block } from "notion-api-types";
 
 //? STYLES
-import styles from "highlight.js/styles/base16/zenburn.css";
+import styles from "highlight.js/styles/base16/equilibrium-light.css";
 
-export const loader = async ({
-  params,
-}: {
-  params: { braindumpId: string };
-}) => {
+type LoaderData = {
+  braindumpMeta: Page;
+  braindumpContent: BlockList;
+  braindumpContentReferences: any;
+};
+
+export const loader: LoaderFunction = async ({ params }) => {
+
   /* 1. retrieve the Notion Page equivalent of this Braindump */
-  const response = await notionClient.pages.retrieve({
+  const response: Page = await notionClient.pages.retrieve({
     page_id: params.braindumpId,
   });
 
   /* 2. retrieve the blocks of content for this Notion Page Braindump */
-  const blocks = await notionClient.blocks.children.list({
+  const blocks: BlockList = await notionClient.blocks.children.list({
     block_id: params.braindumpId,
   });
 
   /* 3. retrieve, in particular, the reference(s) section (topmost block) */
-  const blockReferences = blocks.results[0];
+  const blockReferences: Block = blocks.results[0];
   const references = await notionClient.blocks.children.list({
     block_id: blockReferences.id,
   });
@@ -74,46 +83,33 @@ export const links = () => {
 };
 
 export default function BraindumpIndex() {
-  // [TODO]:
-  // [ ]: I need to extract information about the page to display
-  // [ ]: add highlighter effect to some sections
-  // [ ]: determine the colours that I want to use
-  // [ ]: how could I use this peeling sticky? https://codepen.io/patrickkunka/details/DeZQXw
-  // [ ]: design a layout component (or does Tailwind offer one)?
-
-  // [TYPEFACE]:
-  // https://fontsinuse.com/uses/47122/paul-and-the-microcosm-wenzel-rehbach
-  // https://fontsinuse.com/uses/46970/frow
-  // https://fontsinuse.com/uses/43980/ekin-fil-aquarius-pisces-single-cover
-  // https://fontsinuse.com/uses/45808/futurissimo-l-utopie-du-design-italien
-
-  // [IRREGULAR CSS SHAPES]:
-  // https://stackoverflow.com/questions/23711059/trapezium-shape-with-rounded-corners-and-pure-css
-  // http://jsfiddle.net/webtiki/umV38/
-  // https://www.w3.org/TR/2010/WD-css3-background-20100612/Overview.src.html
-  //
-
-  // [ADVANCED CSS]:
-  // https://developpaper.com/css-advanced-use-css-gradient-to-make-gorgeous-gradient-texture-background-effect/
-  // peelable sticker (with animation): https://codepen.io/patrickkunka/details/DeZQXw
-  // http://www.coding-dude.com/wp/css/highlight-text-css/
-  // https://alvarotrigo.com/blog/css-highlight-text/
-
   const { braindumpMeta, braindumpContent, braindumpContentReferences } =
-    useLoaderData();
+    useLoaderData<LoaderData>();
 
-  const content = useNotionInterpretBlocks(braindumpContent.results);
+  const Content = () => (
+    <>{useNotionInterpretBlocks(braindumpContent.results)}</>
+  );
 
   if (!braindumpContent || !braindumpMeta) return null;
 
-  const Header = (
+  const PillContainer = ({ children }: PropsWithChildren) => (
+    <div className="relative block w-fit cursor-default rounded-full py-1 px-2 text-sm text-graphite-huy outline outline-graphite-huy">
+      {children}
+    </div>
+  );
+
+  const Header = () => (
     <div className="mb-12 flex flex-col">
-      <Title.H1 styleProps={["text-8xl"]}>
+      <Title.H1 styleProps={["text-8xl text-graphite-merlin pb-4"]}>
         {braindumpMeta["properties"]["title"]["title"][0]["plain_text"]}
       </Title.H1>
-      <div className="space-between flex w-full flex-row justify-around pt-6">
-        <PillButton>{braindumpMeta["created_time"]}</PillButton>
-        <PillButton>Uncategorised</PillButton>
+
+      <div className="flex flex-col gap-4 px-4">
+        <div className="cursor-default text-sm text-graphite-huy">
+          Posted on{" "}
+          {new Date(braindumpMeta["created_time"]).toLocaleDateString()}
+        </div>
+        <PillContainer>Uncategorised</PillContainer>
       </div>
     </div>
   );
@@ -191,6 +187,10 @@ export default function BraindumpIndex() {
     </div>
   );
 
+  const ConstrainedLayout = ({ children }: PropsWithChildren) => (
+    <div className="w-[700px]">{children}</div>
+  );
+
   return (
     <div className="relative">
       <PageTransition.FlowerBlobTransition
@@ -199,11 +199,15 @@ export default function BraindumpIndex() {
       >
         <div className="bg-pink pt-24">
           <InnerLayout>
-            {Header}
-            <div className="flex flex-row justify-center">
-              {References}
-              <div className="flex w-3/4 flex-col px-4">{content}</div>
-            </div>
+            <ConstrainedLayout>
+              <Header />
+              <div>
+                {/* {References} */}
+                <div className="flex flex-col px-4">
+                  <Content />
+                </div>
+              </div>
+            </ConstrainedLayout>
           </InnerLayout>
         </div>
       </PageTransition.FlowerBlobTransition>
@@ -251,7 +255,7 @@ const InnerLayout = ({ children }: PropsWithChildren<{}>) => {
 
   return (
     <div
-      className={`transistion h-full w-full bg-white p-4 duration-1000 ease-out`}
+      className={`transistion flex h-full w-full flex-col items-center bg-stone-50 p-4 duration-1000 ease-out`}
       style={{ borderRadius: borderRadius }}
     >
       {children}
@@ -271,15 +275,22 @@ const useNotionInterpretBlocks = (
 
           case "heading_1":
             return (
-              <Title.H2 key={block.id}>
+              <Title.H1 key={block.id} styleProps={["text-graphite-merlin"]}>
                 {block.heading_1.rich_text[0]?.plain_text}
-              </Title.H2>
+              </Title.H1>
             );
 
           case "heading_2":
             return (
-              <Title.H3 key={block.id}>
+              <Title.H2 key={block.id} styleProps={["text-graphite-merlin"]}>
                 {block.heading_2.rich_text[0]?.plain_text}
+              </Title.H2>
+            );
+
+          case "heading_3":
+            return (
+              <Title.H3 key={block.id} styleProps={["text-graphite-merlin"]}>
+                {block.heading_3.rich_text[0]?.plain_text}
               </Title.H3>
             );
 
@@ -295,6 +306,7 @@ const useNotionInterpretBlocks = (
             return null;
 
           case "code":
+            // todo: throw an error if a code block is missing a caption
             return (
               <CodeBlock
                 key={block.id}
