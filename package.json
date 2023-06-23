@@ -72,6 +72,7 @@
     "jest": "^27.5.1",
     "mock-aws-s3": "^4.0.2",
     "msw": "^0.39.2",
+    "notion-api-types": "^1.0.0",
     "npm-run-all": "^4.1.5",
     "prettier": "^2.6.1",
     "prettier-plugin-tailwindcss": "^0.1.8",

@@ -27,6 +27,10 @@ import fuzzyScrawlStyles from "fuzzy-scrawl-styles";
 
 type ThrownResponses = ThrownResponse<404, string>;
 
+type LoaderData = Awaited<
+  ReturnType<typeof retrieveBraindumpsFromNotionDatabase>
+>;
+
 export const headers: HeadersFunction = ({ loaderHeaders }) => {
   return { "Cache-Control": loaderHeaders.get("Cache-Control")! };
 };
@@ -82,9 +86,7 @@ export const links = () => {
 };
 
 export default function BraindumpsList() {
-  const braindumps = useLoaderData() as ReturnType<
-    typeof retrieveBraindumpsFromNotionDatabase
-  >;
+  const braindumps = useLoaderData<LoaderData>();
 
   const [filteredCategory, setFilteredCategory] = useState<
     keyof typeof braindumps | "ALL"
