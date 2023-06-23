@@ -33,6 +33,7 @@ type LoaderData = {
 };
 
 export const loader: LoaderFunction = async ({ params }) => {
+
   /* 1. retrieve the Notion Page equivalent of this Braindump */
   const response: Page = await notionClient.pages.retrieve({
     page_id: params.braindumpId,
