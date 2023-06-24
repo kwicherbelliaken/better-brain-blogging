@@ -60,6 +60,8 @@ const FlowerBlobTransition = ({
 }>) => {
   const [showAnimationContent, setShowAnimationContent] = useState(true);
 
+  const BackgroundImage = useGetBackgroundImage();
+
   useEffect(() => {
     /* 1. only play the animation if this if the first time the page has loaded */
     if (typeof window !== "undefined") {
@@ -140,14 +142,7 @@ const FlowerBlobTransition = ({
                   />
                 </clipPath>
 
-                <g clipPath="url(#clip-shape)">
-                  <image
-                    className="block h-auto w-full"
-                    href="../../_static/images/basquiat-background.jpeg"
-                    x="0"
-                    y="0"
-                  />
-                </g>
+                <g clipPath="url(#clip-shape)">{BackgroundImage}</g>
 
                 {/*<!-- the original flower path --> */}
 
@@ -164,6 +159,24 @@ const FlowerBlobTransition = ({
         <>{children}</>
       )}
     </>
+  );
+};
+
+const useGetBackgroundImage = () => {
+  const availableImages = [
+    "../../_static/images/robot-baptism-head-in-towel.png",
+    "../../_static/images/robot-baptism-head-in-bowl.png",
+  ];
+
+  const imageIndex = Math.floor(Math.random() * availableImages.length);
+
+  return (
+    <image
+      className="block h-auto w-full"
+      href={availableImages[imageIndex]}
+      x="0"
+      y="0"
+    />
   );
 };
 
