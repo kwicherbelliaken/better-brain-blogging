@@ -33,7 +33,6 @@ type LoaderData = {
 };
 
 export const loader: LoaderFunction = async ({ params }) => {
-
   /* 1. retrieve the Notion Page equivalent of this Braindump */
   const response: Page = await notionClient.pages.retrieve({
     page_id: params.braindumpId,
@@ -306,12 +305,13 @@ const useNotionInterpretBlocks = (
             return null;
 
           case "code":
-            // todo: throw an error if a code block is missing a caption
             return (
               <CodeBlock
                 key={block.id}
                 content={{
-                  caption: block.code.caption[0].plain_text,
+                  ...(block.code.caption[0] && {
+                    caption: block.code.caption[0].plain_text,
+                  }),
                   code: block.code.rich_text[0].plain_text,
                 }}
               />
