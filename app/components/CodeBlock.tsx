@@ -37,7 +37,6 @@ const CodeBlock = ({
         </code>
       </pre>
       <P styleProps={["italic"]}>{caption}</P>
-      <div>{code}</div>
     </div>
   );
 };

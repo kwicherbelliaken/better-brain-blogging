@@ -9,7 +9,7 @@ import PageTransition from "~/components/pageTransition";
 
 const Introduction = () => {
   return (
-    <Layout.FullHeight classNameProp={["w-2/3"]}>
+    <Layout.FullHeight classNameProp={["w-2/3 flex flex-col justify-center"]}>
       <div className="flex flex-col space-y-32 p-16">
         <Title.H3>
           Inside is a collection of braindumps. These are things I have tried to
