@@ -27,10 +27,7 @@ module.exports = {
       },
     },
     colors: {
-      black: colors.black,
-      rose: colors.rose,
-      teal: colors.teal,
-      stone: colors.stone,
+      ...colors,
       categories: {
         pink: "#E068A4",
         white: "#F7F1EC",
