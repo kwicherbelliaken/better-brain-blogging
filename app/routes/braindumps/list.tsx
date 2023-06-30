@@ -121,9 +121,9 @@ export default function BraindumpsList() {
       }, {});
 
       return (
-        <div className="flex flex-row gap-3 pb-6">
+        <div className="flex flex-row flex-wrap gap-3 pb-6">
           <button
-            className="relative block w-fit rounded-full py-1 px-2 text-sm font-medium text-graphite-huy outline outline-graphite-huy hover:bg-stone-100 focus:bg-stone-200"
+            className="relative block w-fit whitespace-nowrap rounded-full py-1 px-2 text-sm font-medium text-graphite-huy outline outline-graphite-huy hover:bg-stone-100 focus:bg-stone-200"
             onClick={() => setFilteredCategory("ALL")}
           >
             ALL
@@ -139,7 +139,7 @@ export default function BraindumpsList() {
               return (
                 <button
                   key={keyOfCategories}
-                  className={`${colourMap[category]} relative block w-fit rounded-full py-1 px-2 text-sm font-medium  outline hover:bg-stone-100 focus:bg-stone-200`}
+                  className={`${colourMap[category]} relative block w-fit whitespace-nowrap rounded-full py-1 px-2 text-sm  font-medium outline hover:bg-stone-100 focus:bg-stone-200`}
                   // @ts-ignore: we know this is a valid category
                   onClick={() => setFilteredCategory(category)}
                 >
@@ -283,7 +283,7 @@ function BraindumpDetails({
   );
 
   return (
-    <div className="before:border-blue-900 relative mb-2 flex justify-between before:absolute before:bottom-[calc(50%-1px)] before:w-full before:border-b-[2px] before:border-dotted before:blur-[0.5px]">
+    <div className="relative mb-2 flex justify-between before:absolute before:bottom-[calc(50%-1px)] before:w-full before:border-b-[2px] before:border-dotted before:border-blue-900 before:blur-[0.5px]">
       <P styleProps={["z-10", "pr-2", "bg-white", "mb-0"]}>
         {new Date(braindump.created_at).toLocaleDateString()}
       </P>
