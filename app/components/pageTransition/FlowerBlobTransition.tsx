@@ -105,7 +105,6 @@ const ANIMATION_TARGETS = Object.freeze({
         targets: domNodes["path"],
         ...ANIMATION_PRESETS.SCALE_TRANSLATION_SCALE,
         easing: "easeOutElastic(1, .8)",
-        loop: true,
       });
     },
   },
@@ -166,7 +165,7 @@ const FlowerBlobTransition = ({
 
       // through a conditional render, don't show the animation content
       setAnimationTarget(null);
-    }, 5000);
+    }, 4000);
   }, []);
 
   return (
